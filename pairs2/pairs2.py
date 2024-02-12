@@ -12,9 +12,21 @@ CHUNK_SIZES = [
     (268435456, "256MB"),
 ]
 
-BACKENDS = {"RabbitMQ": "RabbitMQ", "RedisList": "Redis (List)", "RedisStream": "Redis (Stream)", "S3": "S3"}
+BACKENDS = {
+    "RabbitMQ": "RabbitMQ",
+    "RedisList": "Redis (List)",
+    "RedisStream": "Redis (Stream)",
+    "S3": "S3",
+    "BurstMessageRelay": "Message Relay Server",
+}
 
-FILES = ["pairs2/rabbitmq.csv", "pairs2/redis-list.csv", "pairs2/redis-stream.csv", "pairs2/s3.csv"]
+FILES = [
+    "pairs2/rabbitmq.csv",
+    "pairs2/redis-list.csv",
+    "pairs2/redis-stream.csv",
+    "pairs2/s3.csv",
+    "pairs2/message-relay.csv",
+]
 
 
 if __name__ == "__main__":
@@ -67,7 +79,13 @@ if __name__ == "__main__":
     ax.bar(X - 0.15, data_latency["RedisList"], yerr=data_latency_std_dev["RedisList"], label="RedisList", **kwargs)
     ax.bar(X, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisStream", **kwargs)
     ax.bar(X + 0.15, data_latency["S3"], yerr=data_latency_std_dev["S3"], label="S3", **kwargs)
-    # ax.bar(X + 0.3, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisList", **kwargs)
+    ax.bar(
+        X + 0.3,
+        data_latency["BurstMessageRelay"],
+        yerr=data_latency_std_dev["BurstMessageRelay"],
+        label="MessageRelay",
+        **kwargs,
+    )
 
     ax.set_xticks(X)
     ax.set_xticklabels(X_labels)
@@ -98,6 +116,16 @@ if __name__ == "__main__":
         X, data_throughput["RedisStream"], yerr=data_throughput_std_dev["RedisStream"], label="RedisStream", **kwargs
     )
     ax.bar(X + 0.15, data_throughput["S3"], yerr=data_throughput_std_dev["S3"], label="S3", **kwargs)
+    ax.bar(
+        X + 0.3,
+        data_throughput["BurstMessageRelay"],
+        yerr=data_throughput_std_dev["BurstMessageRelay"],
+        label="MessageRelay",
+        **kwargs,
+    )
+    # ax.bar(
+    #     X + 0.15, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisList", **kwargs
+    # )
     # ax.bar(X + 0.3, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisList", **kwargs)
 
     ax.set_xticks(X)
