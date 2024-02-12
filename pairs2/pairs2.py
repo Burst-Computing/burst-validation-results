@@ -16,12 +16,14 @@ BACKENDS = {
     "RabbitMQ": "RabbitMQ",
     "RedisList": "Redis (List)",
     "RedisStream": "Redis (Stream)",
+    "BurstMessageRelay": "Message Relay Server",
 }
 
 FILES = [
     "pairs2/rabbitmq.csv",
     "pairs2/redis-list.csv",
     "pairs2/redis-stream.csv",
+    "pairs2/message-relay.csv"
 ]
 
 
@@ -74,6 +76,7 @@ if __name__ == "__main__":
     ax.bar(X - 0.3, data_latency["RabbitMQ"], yerr=data_latency_std_dev["RabbitMQ"], label="RabbitMQ", **kwargs)
     ax.bar(X - 0.15, data_latency["RedisList"], yerr=data_latency_std_dev["RedisList"], label="RedisList", **kwargs)
     ax.bar(X, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisStream", **kwargs)
+    ax.bar(X + 0.15, data_latency["BurstMessageRelay"], yerr=data_latency_std_dev["BurstMessageRelay"], label="MessageRelay", **kwargs)
     # ax.bar(
     #     X + 0.15, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisList", **kwargs
     # )
@@ -107,6 +110,9 @@ if __name__ == "__main__":
     ax.bar(
         X, data_throughput["RedisStream"], yerr=data_throughput_std_dev["RedisStream"], label="RedisStream", **kwargs
     )
+    ax.bar(
+        X + 0.15, data_throughput["BurstMessageRelay"], yerr=data_throughput_std_dev["BurstMessageRelay"], label="MessageRelay", **kwargs
+    )
     # ax.bar(
     #     X + 0.15, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisList", **kwargs
     # )
@@ -120,3 +126,4 @@ if __name__ == "__main__":
 
     fig.tight_layout()
     plt.savefig("pairs2/throughput.pdf", format="pdf", dpi=500)
+
