@@ -32,8 +32,6 @@ FILES = [
     "pairs2/message-relay.csv",
 ]
 
-PAYLOAD_SIZE = (1073741824 / 1024) / 1024  # 1GB in MB
-
 
 if __name__ == "__main__":
     dfs = []
@@ -46,8 +44,8 @@ if __name__ == "__main__":
 
     Y_lat = defaultdict(list)
     Y_lat_stddev = defaultdict(list)
-    data_throughput = defaultdict(list)
-    data_throughput_std_dev = defaultdict(list)
+    Y_throughput = defaultdict(list)
+    Y_throughput_stdev = defaultdict(list)
     for backend in BACKENDS.keys():
         for chunk_size, chunk_size_label in CHUNK_SIZES:
             tmp_df = df[(df["chunk_size"] == chunk_size) & (df["backend"] == backend)]
@@ -55,12 +53,13 @@ if __name__ == "__main__":
                 print(f"Backend: {backend}, Chunk Size: {chunk_size} is empty. Skipping...")
                 Y_lat[backend].append(0.0)
                 Y_lat_stddev[backend].append(0.0)
-                data_throughput[backend].append(0.0)
-                data_throughput_std_dev[backend].append(0.0)
+                Y_throughput[backend].append(0.0)
+                Y_throughput_stdev[backend].append(0.0)
                 continue
 
-            t_start = tmp_df[tmp_df["group_id"] == 0][["burst_id", "start"]]
-            t_end = tmp_df[tmp_df["group_id"] == 1][["burst_id", "end"]]
+            # group 1 is the sender (start), group 0 is the receiver (end)
+            t_start = tmp_df[tmp_df["group_id"] == 1][["burst_id", "start"]]
+            t_end = tmp_df[tmp_df["group_id"] == 0][["burst_id", "end"]]
 
             df_times = pd.merge(t_start, t_end, on="burst_id")
             latencies = df_times["end"] - df_times["start"]
@@ -71,13 +70,17 @@ if __name__ == "__main__":
             Y_lat[backend].append(latency_avg)
             Y_lat_stddev[backend].append(latency_std_dev)
 
-            throughputs = PAYLOAD_SIZE / latencies
+            payload_sizes = tmp_df["payload_size"].unique()
+            assert len(payload_sizes) == 1, f"Payload sizes are not consistent: {payload_sizes}"
+
+            payload_size = payload_sizes[0] / 1024 / 1024  # Convert to MB
+            throughputs = payload_size / latencies
             throughput_avg = np.median(throughputs)
             throughput_std_dev = np.std(throughputs)
 
             print(f"{backend} Throoughput ({chunk_size_label}): {throughput_avg:.2f} MB/s ± {throughput_std_dev:.2f}")
-            data_throughput[backend].append(throughput_avg)
-            data_throughput_std_dev[backend].append(throughput_std_dev)
+            Y_throughput[backend].append(throughput_avg)
+            Y_throughput_stdev[backend].append(throughput_std_dev)
 
     X_labels = [chunk_size_label for _, chunk_size_label in CHUNK_SIZES]
     X = np.arange(len(X_labels))
@@ -142,32 +145,28 @@ if __name__ == "__main__":
         "capsize": 3,
         "zorder": 3,
     }
-    ax.bar(X - 0.3, data_throughput["RabbitMQ"], yerr=data_throughput_std_dev["RabbitMQ"], label="RabbitMQ", **kwargs)
-    ax.bar(
-        X - 0.2, data_throughput["RedisList"], yerr=data_throughput_std_dev["RedisList"], label="RedisList", **kwargs
-    )
+    ax.bar(X - 0.3, Y_throughput["RabbitMQ"], yerr=Y_throughput_stdev["RabbitMQ"], label="RabbitMQ", **kwargs)
+    ax.bar(X - 0.2, Y_throughput["RedisList"], yerr=Y_throughput_stdev["RedisList"], label="RedisList", **kwargs)
     ax.bar(
         X - 0.1,
-        data_throughput["DragonflyList"],
-        yerr=data_throughput_std_dev["DragonflyList"],
+        Y_throughput["DragonflyList"],
+        yerr=Y_throughput_stdev["DragonflyList"],
         label="DragonflyList",
         **kwargs,
     )
-    ax.bar(
-        X, data_throughput["RedisStream"], yerr=data_throughput_std_dev["RedisStream"], label="RedisStream", **kwargs
-    )
+    ax.bar(X, Y_throughput["RedisStream"], yerr=Y_throughput_stdev["RedisStream"], label="RedisStream", **kwargs)
     ax.bar(
         X + 0.1,
-        data_throughput["DragonflyStream"],
-        yerr=data_throughput_std_dev["DragonflyStream"],
+        Y_throughput["DragonflyStream"],
+        yerr=Y_throughput_stdev["DragonflyStream"],
         label="DragonflyStream",
         **kwargs,
     )
-    ax.bar(X + 0.2, data_throughput["S3"], yerr=data_throughput_std_dev["S3"], label="S3", **kwargs)
+    ax.bar(X + 0.2, Y_throughput["S3"], yerr=Y_throughput_stdev["S3"], label="S3", **kwargs)
     ax.bar(
         X + 0.3,
-        data_throughput["BurstMessageRelay"],
-        yerr=data_throughput_std_dev["BurstMessageRelay"],
+        Y_throughput["BurstMessageRelay"],
+        yerr=Y_throughput_stdev["BurstMessageRelay"],
         label="MessageRelay",
         **kwargs,
     )
