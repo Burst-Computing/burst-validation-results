@@ -15,7 +15,9 @@ CHUNK_SIZES = [
 BACKENDS = {
     "RabbitMQ": "RabbitMQ",
     "RedisList": "Redis (List)",
+    "DragonflyList": "Dragonfly (List)",
     "RedisStream": "Redis (Stream)",
+    "DragonflyStream": "Dragonfly (Stream)",
     "S3": "S3",
     "BurstMessageRelay": "Message Relay Server",
 }
@@ -23,7 +25,9 @@ BACKENDS = {
 FILES = [
     "pairs2/rabbitmq.csv",
     "pairs2/redis-list.csv",
+    "pairs2/dragonfly-list.csv",
     "pairs2/redis-stream.csv",
+    "pairs2/dragonfly-stream.csv",
     "pairs2/s3.csv",
     "pairs2/message-relay.csv",
 ]
@@ -75,12 +79,14 @@ if __name__ == "__main__":
         "capsize": 3,
         "zorder": 3,
     }
-    ax.bar(X - 0.3, data_latency["RabbitMQ"], yerr=data_latency_std_dev["RabbitMQ"], label="RabbitMQ", **kwargs)
-    ax.bar(X - 0.15, data_latency["RedisList"], yerr=data_latency_std_dev["RedisList"], label="RedisList", **kwargs)
+    ax.bar(X - 0.45, data_latency["RabbitMQ"], yerr=data_latency_std_dev["RabbitMQ"], label="RabbitMQ", **kwargs)
+    ax.bar(X - 0.3, data_latency["RedisList"], yerr=data_latency_std_dev["RedisList"], label="RedisList", **kwargs)
+    ax.bar(X - 0.15, data_latency["DragonflyList"], yerr=data_latency_std_dev["DragonflyList"], label="DragonflyList", **kwargs)
     ax.bar(X, data_latency["RedisStream"], yerr=data_latency_std_dev["RedisStream"], label="RedisStream", **kwargs)
-    ax.bar(X + 0.15, data_latency["S3"], yerr=data_latency_std_dev["S3"], label="S3", **kwargs)
+    ax.bar(X + 0.15, data_latency["DragonflyStream"], yerr=data_latency_std_dev["DragonflyStream"], label="DragonflyStream", **kwargs)
+    ax.bar(X + 0.3, data_latency["S3"], yerr=data_latency_std_dev["S3"], label="S3", **kwargs)
     ax.bar(
-        X + 0.3,
+        X + 0.45,
         data_latency["BurstMessageRelay"],
         yerr=data_latency_std_dev["BurstMessageRelay"],
         label="MessageRelay",
@@ -108,16 +114,22 @@ if __name__ == "__main__":
         "capsize": 3,
         "zorder": 3,
     }
-    ax.bar(X - 0.3, data_throughput["RabbitMQ"], yerr=data_throughput_std_dev["RabbitMQ"], label="RabbitMQ", **kwargs)
+    ax.bar(X - 0.45, data_throughput["RabbitMQ"], yerr=data_throughput_std_dev["RabbitMQ"], label="RabbitMQ", **kwargs)
     ax.bar(
-        X - 0.15, data_throughput["RedisList"], yerr=data_throughput_std_dev["RedisList"], label="RedisList", **kwargs
+        X - 0.3, data_throughput["RedisList"], yerr=data_throughput_std_dev["RedisList"], label="RedisList", **kwargs
+    )
+    ax.bar(
+        X - 0.15, data_throughput["DragonflyList"], yerr=data_throughput_std_dev["DragonflyList"], label="DragonflyList", **kwargs
     )
     ax.bar(
         X, data_throughput["RedisStream"], yerr=data_throughput_std_dev["RedisStream"], label="RedisStream", **kwargs
     )
-    ax.bar(X + 0.15, data_throughput["S3"], yerr=data_throughput_std_dev["S3"], label="S3", **kwargs)
     ax.bar(
-        X + 0.3,
+        X + 0.15, data_throughput["DragonflyStream"], yerr=data_throughput_std_dev["DragonflyStream"], label="DragonflyStream", **kwargs
+    )
+    ax.bar(X + 0.3, data_throughput["S3"], yerr=data_throughput_std_dev["S3"], label="S3", **kwargs)
+    ax.bar(
+        X + 0.45,
         data_throughput["BurstMessageRelay"],
         yerr=data_throughput_std_dev["BurstMessageRelay"],
         label="MessageRelay",
