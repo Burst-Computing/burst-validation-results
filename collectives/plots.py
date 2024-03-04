@@ -1,12 +1,15 @@
+from matplotlib.collections import LineCollection
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import math
 from collections import defaultdict
 
 
 FILES = [
     "collectives/gather-dragonfly.csv",
     "collectives/scatter-dragonfly.csv",
+    "collectives/broadcast-dragonfly.csv",
 ]
 
 BURST_SIZES = [
@@ -23,8 +26,14 @@ GRANULARITIES = [
     48,
 ]
 
+COLLECTIVES = [
+    "Gather",
+    "Scatter",
+    "Broadcast",
+]
 
-def do_plot(benchmark, medians, stdevs):
+
+def do_plot_latency(benchmark, medians, stdevs):
     fig, ax = plt.subplots()
 
     ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
@@ -50,10 +59,120 @@ def do_plot(benchmark, medians, stdevs):
     ax.set_xlabel("Granularity")
     ax.set_ylabel("Latency (s)")
     ax.legend(title="Burst Size")
+    ax.set_title(f"{benchmark} Latency")
 
     fig.tight_layout()
 
-    plt.savefig(f"collectives/{benchmark}.pdf", dpi=300)
+    # plt.savefig(f"collectives/{benchmark}-latency.pdf", dpi=300)
+    plt.savefig(f"collectives/{benchmark}-latency.png", dpi=300)
+    plt.close(fig)
+
+
+def do_plot_percent(benchmark, medians, stdevs):
+    percent_reduction = {
+        burst_size: {granularity: 0.0 for granularity in GRANULARITIES if granularity != 1}
+        for burst_size in BURST_SIZES
+    }
+
+    for burst_size in BURST_SIZES:
+        g1 = medians[benchmark][burst_size][1]
+        for granularity in GRANULARITIES:
+            if granularity == 1:
+                continue
+            px = medians[benchmark][burst_size][granularity] / g1
+            reduction = 1 - px
+            print(f"{burst_size=} {granularity=} {reduction=:.2f}")
+            percent_reduction[burst_size][granularity] = round(reduction * 100)
+
+    fig, ax = plt.subplots()
+
+    ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
+
+    X = np.arange(len(GRANULARITIES) - 1)
+    X_labels = [str(granularity) for granularity in GRANULARITIES if granularity != 1]
+
+    ax.set_xticks(X)
+    ax.set_xticklabels(X_labels)
+
+    for burst_size in BURST_SIZES:
+        ax.plot(
+            X,
+            list(percent_reduction[burst_size].values()),
+            marker="D",
+            ls="--",
+            label=str(burst_size),
+            zorder=3,
+        )
+
+    ax.set_xlabel("Granularity")
+    ax.set_ylabel("Latency Reduction respect to Granularity 1 (%)")
+    ax.legend(title="Burst Size")
+    ax.set_title(f"{benchmark} Latency Reduction")
+
+    fig.tight_layout()
+
+    # plt.savefig(f"collectives/{benchmark}-percent.pdf", dpi=300)
+    plt.savefig(f"collectives/{benchmark}-percent.png", dpi=300)
+    plt.close(fig)
+
+
+def do_plot_histogram(run_data, title=None):
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    benchmark = run_data["benchmark"].iloc[0]
+
+    min_tstamp = run_data["start"].min()
+    max_tstamp = run_data["end"].max()
+    max_t = max_tstamp - min_tstamp
+
+    ax.set_title("{benchmark} Execution Times")
+    ax.set_xlabel("Execution Time (s)")
+    ax.set_ylabel("Worker ID")
+
+    ax.set_ylim(-1, run_data["burst_size"].values[0] + 1)
+    ax.set_yticks(np.arange(0, run_data["burst_size"].values[0] + 1, 6))
+
+    ax.grid(linestyle="--", linewidth=0.5)
+
+    run_data_sorted = run_data.sort_values(by="worker_id")
+
+    line_segments = LineCollection(
+        [
+            [(worker["start"] - min_tstamp, worker["worker_id"]), (worker["end"] - min_tstamp, worker["worker_id"])]
+            for _, worker in run_data_sorted.iterrows()
+        ],
+        linestyles="solid",
+        color="k",
+        alpha=1,
+        linewidth=1,
+    )
+    ax.add_collection(line_segments)
+
+    ax.axvline(x=max_t, color="tab:blue", linestyle="--", label="Collective Completion Time")
+
+    # add a line to represent the parallelism
+    max_seconds = 4 * math.ceil(max_t / 4)
+    parallelism = np.zeros(max_seconds)
+
+    for _, worker in run_data_sorted.iterrows():
+        f_start = math.ceil(worker["start"] - min_tstamp)
+        f_stop = math.ceil(worker["end"] - min_tstamp)
+        parallelism[f_start:f_stop] += 1
+
+    ax.plot(parallelism, color="tab:red", label="Parallelism")
+
+    # legend
+    ax.legend(loc="upper right")
+
+    if title is None:
+        title = f"{benchmark} Execution Times"
+    ax.set_title(title)
+
+    fig.tight_layout()
+
+    # save plot
+    plt.savefig(f"collectives/parallelism/{title}.png", dpi=300)
+    plt.close(fig)
 
 
 if __name__ == "__main__":
@@ -85,67 +204,59 @@ if __name__ == "__main__":
 
     medians = tree()
     stdevs = tree()
+    fastest_run = tree()
+    slowest_run = tree()
 
     for burst_size in BURST_SIZES:
         for granularity in GRANULARITIES:
-            print(f"Burst Size: {burst_size}, Granularity: {granularity}")
+            # print(f"Burst Size: {burst_size}, Granularity: {granularity}")
             tmp_df = df[(df["burst_size"] == burst_size) & (df["granularity"] == granularity)]
             if tmp_df.empty:
                 print(f"Burst Size: {burst_size}, Granularity: {granularity} is empty. Skipping...")
                 continue
 
-            # Gather
-            gather_df = tmp_df[tmp_df["benchmark"] == "Gather"]
-            if not gather_df.empty:
-                runs = pd.unique(gather_df["burst_id"])
-                # print(runs)
+            for collective in COLLECTIVES:
+                coll_df = tmp_df[tmp_df["benchmark"] == collective]
+                if not coll_df.empty:
+                    runs = pd.unique(coll_df["burst_id"])
+                    # print(runs)
 
-                times = []
-                for run in runs:
-                    run_df = gather_df[gather_df["burst_id"] == run]
+                    times = []
+                    for run in runs:
+                        run_df = coll_df[coll_df["burst_id"] == run]
 
-                    # For gather, consider only root worker (worker_id == 0)
-                    worker_0 = run_df[run_df["worker_id"] == 0]
-                    t0 = worker_0["start"].values[0]
-                    t1 = worker_0["end"].values[0]
-                    times.append(t1 - t0)
+                        # Take t0 = min(start) and t1 = max(end)
+                        t0 = run_df["start"].min()
+                        t1 = run_df["end"].max()
+                        times.append(t1 - t0)
 
-                median = np.median(times)
-                stdev = np.std(times)
+                    imax = np.argmax(np.array(times))
+                    imin = np.argmin(np.array(times))
 
-                print(f"Gather Latency: {median:.2f} s ± {stdev:.2f}")
-                medians["gather"][burst_size][granularity] = median
-                stdevs["gather"][burst_size][granularity] = stdev
-            else:
-                print(f"Burst Size: {burst_size}, Granularity: {granularity}, Gather is empty. Skipping...")
-                medians["gather"][burst_size][granularity] = 0.0
-                stdevs["gather"][burst_size][granularity] = 0.0
+                    fastest_run[collective][burst_size][granularity] = coll_df[coll_df["burst_id"] == runs[imin]]
+                    slowest_run[collective][burst_size][granularity] = coll_df[coll_df["burst_id"] == runs[imax]]
 
-            # Scatter
-            scatter_df = tmp_df[tmp_df["benchmark"] == "Scatter"]
-            if not scatter_df.empty:
-                runs = pd.unique(scatter_df["burst_id"])
-                # print(runs)
+                    median = np.median(times)
+                    stdev = np.std(times)
 
-                times = []
-                for run in runs:
-                    run_df = scatter_df[scatter_df["burst_id"] == run]
+                    print(f"{burst_size=} {granularity=} {collective=} ==> {median:.2f} s ± {stdev:.2f}")
+                    medians[collective][burst_size][granularity] = median
+                    stdevs[collective][burst_size][granularity] = stdev
+                else:
+                    print(f"{burst_size=} {granularity=} {collective=} ==> Empty!")
+                    medians[collective][burst_size][granularity] = 0.0
+                    stdevs[collective][burst_size][granularity] = 0.0
 
-                    # For scatter, take t0 = min(start) and t1 = max(end)
-                    t0 = run_df["start"].min()
-                    t1 = run_df["end"].max()
-                    times.append(t1 - t0)
-
-                median = np.median(times)
-                stdev = np.std(times)
-
-                print(f"Scatter Latency: {median:.2f} s ± {stdev:.2f}")
-                medians["scatter"][burst_size][granularity] = median
-                stdevs["scatter"][burst_size][granularity] = stdev
-            else:
-                print(f"Burst Size: {burst_size}, Granularity: {granularity}, Scatter is empty. Skipping...")
-                medians["scatter"][burst_size][granularity] = 0.0
-                stdevs["scatter"][burst_size][granularity] = 0.0
-
-    do_plot("gather", medians, stdevs)
-    do_plot("scatter", medians, stdevs)
+    for collective in COLLECTIVES:
+        do_plot_latency(collective, medians, stdevs)
+        do_plot_percent(collective, medians, stdevs)
+        for burst_size in BURST_SIZES:
+            for granularity in GRANULARITIES:
+                do_plot_histogram(
+                    fastest_run[collective][burst_size][granularity],
+                    f"{collective} Execution Times (fastest run, {burst_size=}, {granularity=})",
+                )
+                do_plot_histogram(
+                    slowest_run[collective][burst_size][granularity],
+                    f"{collective} Execution Times (slowest run, {burst_size=}, {granularity=})",
+                )
