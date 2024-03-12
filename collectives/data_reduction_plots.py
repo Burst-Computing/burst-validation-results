@@ -10,6 +10,7 @@ FILES = [
     "collectives/gather-dragonfly.csv",
     "collectives/scatter-dragonfly.csv",
     "collectives/broadcast-dragonfly.csv",
+    "collectives/all-to-all-dragonfly.csv",
 ]
 
 BURST_SIZES = [
@@ -41,6 +42,7 @@ COLLECTIVES = [
     "Gather",
     "Scatter",
     "Broadcast",
+    "AllToAll",
 ]
 
 
