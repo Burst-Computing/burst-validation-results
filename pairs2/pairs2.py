@@ -1,7 +1,51 @@
 import pandas as pd
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from collections import defaultdict
+from cycler import cycler
+
+plt.rcParams.update(
+    {
+        "text.usetex": True,
+        "font.family": "serif",
+        # "pgf.texsystem": "pdflatex",
+        "font.size": 9,  # footnote/caption size 9pt for paper
+        # "font.size": 10,     # caption size 10pt on thesis
+        # "pgf.preamble": "\n".join(
+        #     [
+        #         r"\usepackage{libertine}",
+        #         # r"\usepackage{lmodern}",
+        #     ]
+        # ),
+        # "lines.linewidth": 0.8,
+        "lines.markersize": 3,
+        "axes.linewidth": 0.5,
+        "grid.linewidth": 0.3,
+        "grid.linestyle": "-",
+        "axes.edgecolor": mpl.rcParams["grid.color"],
+        # "ytick.color": mpl.rcParams["grid.color"],
+        "ytick.direction": "in",
+        # "xtick.color": mpl.rcParams["grid.color"],
+        "xtick.direction": "in",
+        "axes.titlesize": "medium",
+        "axes.titlepad": 4,
+        "axes.labelpad": 1,
+        "axes.spines.top": False,
+        "axes.spines.right": False,
+        "axes.spines.bottom": False,
+        "axes.spines.left": False,
+        "axes.axisbelow": True,  # grid below patches
+        "axes.prop_cycle": cycler(
+            "color", ["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]
+        ),
+        "legend.labelspacing": 0.1,
+        "legend.handlelength": 1,
+        "legend.handletextpad": 0.2,
+        "legend.columnspacing": 1,
+        "legend.borderpad": 0.1,
+    }
+)
 
 
 CHUNK_SIZES = [
@@ -19,7 +63,7 @@ BACKENDS = {
     "RedisStream": "Redis (Stream)",
     "DragonflyStream": "Dragonfly (Stream)",
     "S3": "S3",
-    "BurstMessageRelay": "Message Relay Server",
+    # "BurstMessageRelay": "Message Relay Server",
 }
 
 FILES = [
@@ -29,7 +73,7 @@ FILES = [
     "pairs2/redis-stream.csv",
     "pairs2/dragonfly-stream.csv",
     "pairs2/s3.csv",
-    "pairs2/message-relay.csv",
+    # "pairs2/message-relay.csv",
 ]
 
 
@@ -85,97 +129,133 @@ if __name__ == "__main__":
     X_labels = [chunk_size_label for _, chunk_size_label in CHUNK_SIZES]
     X = np.arange(len(X_labels))
 
-    fig, ax = plt.subplots()
-    ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
+    # fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
+    # plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
+
+    # ax.grid(zorder=1)
+    # bar_width = 0.12
+    # kwargs = {
+    #     "width": 0.1,
+    #     "linewidth": 1,
+    #     "edgecolor": "black",
+    #     "align": "center",
+    #     "alpha": 0.75,
+    #     "ecolor": "black",
+    #     "capsize": 3,
+    #     "zorder": 3,
+    # }
+
+    # ax.bar(X - (bar_width * 2) - (bar_width / 2), Y_lat["RabbitMQ"], yerr=Y_lat_stddev["RabbitMQ"], label="RabbitMQ", **kwargs)
+    # ax.bar(X - (bar_width * 2) - (bar_width / 2), Y_lat["RedisList"], yerr=Y_lat_stddev["RedisList"], label="RedisList", **kwargs)
+    # ax.bar(
+    #     X - (bar_width * 2) - (bar_width / 2),
+    #     Y_lat["DragonflyList"],
+    #     yerr=Y_lat_stddev["DragonflyList"],
+    #     label="DragonflyList",
+    #     **kwargs,
+    # )
+    # ax.bar(X - (bar_width * 2) - (bar_width / 2), Y_lat["RedisStream"], yerr=Y_lat_stddev["RedisStream"], label="RedisStream", **kwargs)
+    # ax.bar(
+    #     X - (bar_width * 2) - (bar_width / 2),
+    #     Y_lat["DragonflyStream"],
+    #     yerr=Y_lat_stddev["DragonflyStream"],
+    #     label="DragonflyStream",
+    #     **kwargs,
+    # )
+    # ax.bar(X - (bar_width * 2) - (bar_width / 2), Y_lat["S3"], yerr=Y_lat_stddev["S3"], label="S3", **kwargs)
+    # ax.bar(
+    #     X - (bar_width * 2) - (bar_width / 2),
+    #     Y_lat["BurstMessageRelay"],
+    #     yerr=Y_lat_stddev["BurstMessageRelay"],
+    #     label="MessageRelay",
+    #     **kwargs,
+    # )
+
+    # ax.set_xticks(X)
+    # ax.set_xticklabels(X_labels)
+    # ax.set_xlabel("Chunk Size")
+    # ax.set_ylabel("Latency (s)")
+    # ax.legend(loc="upper right")
+
+    # fig.tight_layout()
+    # plt.savefig("pairs2/latency.pdf", format="pdf", dpi=500)
+
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
+    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
+
+    ax.grid(zorder=0)
+    bar_width = 0.12
+
+    ax.set_ylim(0, 600)
+
     kwargs = {
-        "width": 0.1,
-        "linewidth": 1,
+        "width": bar_width,
+        "linewidth": 0.5,
         "edgecolor": "black",
         "align": "center",
         "alpha": 0.75,
         "ecolor": "black",
-        "capsize": 3,
+        "capsize": 1.5,
         "zorder": 3,
     }
 
-    ax.bar(X - 0.3, Y_lat["RabbitMQ"], yerr=Y_lat_stddev["RabbitMQ"], label="RabbitMQ", **kwargs)
-    ax.bar(X - 0.2, Y_lat["RedisList"], yerr=Y_lat_stddev["RedisList"], label="RedisList", **kwargs)
     ax.bar(
-        X - 0.1,
-        Y_lat["DragonflyList"],
-        yerr=Y_lat_stddev["DragonflyList"],
-        label="DragonflyList",
+        X - (bar_width * 2) - (bar_width / 2),
+        Y_throughput["RabbitMQ"],
+        yerr=Y_throughput_stdev["RabbitMQ"],
+        label="RabbitMQ",
         **kwargs,
     )
-    ax.bar(X, Y_lat["RedisStream"], yerr=Y_lat_stddev["RedisStream"], label="RedisStream", **kwargs)
     ax.bar(
-        X + 0.1,
-        Y_lat["DragonflyStream"],
-        yerr=Y_lat_stddev["DragonflyStream"],
-        label="DragonflyStream",
+        X - (bar_width * 1) - (bar_width / 2),
+        Y_throughput["RedisList"],
+        yerr=Y_throughput_stdev["RedisList"],
+        label="Redis List",
         **kwargs,
     )
-    ax.bar(X + 0.2, Y_lat["S3"], yerr=Y_lat_stddev["S3"], label="S3", **kwargs)
     ax.bar(
-        X + 0.3,
-        Y_lat["BurstMessageRelay"],
-        yerr=Y_lat_stddev["BurstMessageRelay"],
-        label="MessageRelay",
-        **kwargs,
-    )
-
-    ax.set_xticks(X)
-    ax.set_xticklabels(X_labels)
-    ax.set_xlabel("Chunk Size")
-    ax.set_ylabel("Latency (s)")
-    ax.legend(loc="upper right")
-
-    fig.tight_layout()
-    plt.savefig("pairs2/latency.pdf", format="pdf", dpi=500)
-
-    fig, ax = plt.subplots()
-    ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
-    kwargs = {
-        "width": 0.1,
-        "linewidth": 1,
-        "edgecolor": "black",
-        "align": "center",
-        "alpha": 0.75,
-        "ecolor": "black",
-        "capsize": 3,
-        "zorder": 3,
-    }
-    ax.bar(X - 0.3, Y_throughput["RabbitMQ"], yerr=Y_throughput_stdev["RabbitMQ"], label="RabbitMQ", **kwargs)
-    ax.bar(X - 0.2, Y_throughput["RedisList"], yerr=Y_throughput_stdev["RedisList"], label="RedisList", **kwargs)
-    ax.bar(
-        X - 0.1,
+        X - (bar_width * 0) - (bar_width / 2),
         Y_throughput["DragonflyList"],
         yerr=Y_throughput_stdev["DragonflyList"],
-        label="DragonflyList",
+        label="DragonflyDB\nList",
         **kwargs,
     )
-    ax.bar(X, Y_throughput["RedisStream"], yerr=Y_throughput_stdev["RedisStream"], label="RedisStream", **kwargs)
     ax.bar(
-        X + 0.1,
+        X + (bar_width * 0) + (bar_width / 2),
+        Y_throughput["RedisStream"],
+        yerr=Y_throughput_stdev["RedisStream"],
+        label="Redis Stream",
+        **kwargs,
+    )
+    ax.bar(
+        X + (bar_width * 1) + (bar_width / 2),
         Y_throughput["DragonflyStream"],
         yerr=Y_throughput_stdev["DragonflyStream"],
-        label="DragonflyStream",
+        label="DragonflyDB\nStream",
         **kwargs,
     )
-    ax.bar(X + 0.2, Y_throughput["S3"], yerr=Y_throughput_stdev["S3"], label="S3", **kwargs)
     ax.bar(
-        X + 0.3,
-        Y_throughput["BurstMessageRelay"],
-        yerr=Y_throughput_stdev["BurstMessageRelay"],
-        label="MessageRelay",
-        **kwargs,
+        X + (bar_width * 2) + (bar_width / 2), Y_throughput["S3"], yerr=Y_throughput_stdev["S3"], label="S3", **kwargs
     )
+    # ax.bar(
+    #     X - (bar_width * 2) - (bar_width / 2),
+    #     Y_throughput["BurstMessageRelay"],
+    #     yerr=Y_throughput_stdev["BurstMessageRelay"],
+    #     label="MessageRelay",
+    #     **kwargs,
+    # )
 
     ax.set_xticks(X)
     ax.set_xticklabels(X_labels)
     ax.set_xlabel("Chunk Size")
     ax.set_ylabel("Throughput (MB/s)")
-    ax.legend(loc="upper right")
+
+    ax.legend(
+        ncols=2,
+        frameon=False,
+        loc="upper left",
+        # bbox_to_anchor=(0, 1.02, 1, 0.2),
+    )
 
     fig.tight_layout()
     plt.savefig("pairs2/throughput.pdf", format="pdf", dpi=500)

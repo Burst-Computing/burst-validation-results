@@ -1,10 +1,59 @@
 from matplotlib.collections import LineCollection
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
 import math
 from collections import defaultdict
+from cycler import cycler
 
+
+# plt.style.use("ggplot")
+# colors = plt.rcParams["axes.prop_cycle"]
+# plt.style.use("matplotlib")
+
+
+plt.rcParams.update(
+    {
+        "text.usetex": True,
+        "font.family": "serif",
+        # "pgf.texsystem": "pdflatex",
+        "font.size": 9,  # footnote/caption size 9pt for paper
+        # "font.size": 10,     # caption size 10pt on thesis
+        # "pgf.preamble": "\n".join(
+        #     [
+        #         r"\usepackage{libertine}",
+        #         # r"\usepackage{lmodern}",
+        #     ]
+        # ),
+        # "lines.linewidth": 0.8,
+        "lines.markersize": 3,
+        "axes.linewidth": 0.5,
+        "grid.linewidth": 0.3,
+        "grid.linestyle": "-",
+        "axes.edgecolor": mpl.rcParams["grid.color"],
+        "axes.prop_cycle": cycler(
+            "color", ["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]
+        ),
+        # "ytick.color": mpl.rcParams["grid.color"],
+        "ytick.direction": "in",
+        # "xtick.color": mpl.rcParams["grid.color"],
+        "xtick.direction": "in",
+        "axes.titlesize": "medium",
+        "axes.titlepad": 4,
+        "axes.labelpad": 1,
+        "axes.spines.top": False,
+        "axes.spines.right": False,
+        "axes.spines.bottom": False,
+        "axes.spines.left": False,
+        "axes.axisbelow": True,  # grid below patches
+        "legend.labelspacing": 0.15,
+        "legend.handlelength": 1,
+        "legend.handletextpad": 0.2,
+        "legend.columnspacing": 1,
+        "legend.borderpad": 0.3,
+    }
+)
 
 FILES = [
     "collectives/gather-dragonfly.csv",
@@ -36,9 +85,12 @@ COLLECTIVES = [
 
 
 def do_plot_latency(benchmark, medians, stdevs):
-    fig, ax = plt.subplots()
+    # fig, ax = plt.subplots()
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
+    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
-    ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
+    # ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
+    ax.grid(zorder=0)
 
     X = np.arange(len(GRANULARITIES))
     X_labels = [str(granularity) for granularity in GRANULARITIES]
@@ -61,7 +113,7 @@ def do_plot_latency(benchmark, medians, stdevs):
     ax.set_xlabel("Granularity")
     ax.set_ylabel("Latency (s)")
     ax.legend(title="Burst Size")
-    ax.set_title(f"{benchmark} Latency")
+    # ax.set_title(f"{benchmark} Latency")
 
     fig.tight_layout()
 
@@ -86,9 +138,10 @@ def do_plot_percent(benchmark, medians, stdevs):
             print(f"{burst_size=} {granularity=} {reduction=:.2f}")
             percent_reduction[burst_size][granularity] = round(reduction * 100)
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
+    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
-    ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
+    ax.grid(zorder=0)
 
     X = np.arange(len(GRANULARITIES) - 1)
     X_labels = [str(granularity) for granularity in GRANULARITIES if granularity != 1]
@@ -107,9 +160,9 @@ def do_plot_percent(benchmark, medians, stdevs):
         )
 
     ax.set_xlabel("Granularity")
-    ax.set_ylabel("Latency Reduction respect to Granularity 1 (%)")
+    ax.set_ylabel("Latency Reduction\nrespect to Granularity 1 (\%)")
     ax.legend(title="Burst Size")
-    ax.set_title(f"{benchmark} Latency Reduction")
+    # ax.set_title(f"{benchmark} Latency Reduction")
 
     fig.tight_layout()
 
@@ -252,13 +305,13 @@ if __name__ == "__main__":
     for collective in COLLECTIVES:
         do_plot_latency(collective, medians, stdevs)
         do_plot_percent(collective, medians, stdevs)
-        for burst_size in BURST_SIZES:
-            for granularity in GRANULARITIES:
-                do_plot_histogram(
-                    fastest_run[collective][burst_size][granularity],
-                    f"{collective} Execution Times (fastest run, {burst_size=}, {granularity=})",
-                )
-                do_plot_histogram(
-                    slowest_run[collective][burst_size][granularity],
-                    f"{collective} Execution Times (slowest run, {burst_size=}, {granularity=})",
-                )
+        # for burst_size in BURST_SIZES:
+        #     for granularity in GRANULARITIES:
+        #         do_plot_histogram(
+        #             fastest_run[collective][burst_size][granularity],
+        #             f"{collective} Execution Times (fastest run, {burst_size=}, {granularity=})",
+        #         )
+        #         do_plot_histogram(
+        #             slowest_run[collective][burst_size][granularity],
+        #             f"{collective} Execution Times (slowest run, {burst_size=}, {granularity=})",
+        #         )
