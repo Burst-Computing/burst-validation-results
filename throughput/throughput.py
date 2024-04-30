@@ -146,6 +146,9 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
     plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
+    ax.set_ylim(0, 3)
+    ax.set_yticks(np.arange(0, 3.1, 0.5))
+
     ax.grid(zorder=1)
     bar_width = 0.12
     kwargs = {
@@ -215,7 +218,11 @@ if __name__ == "__main__":
     ax.set_xticklabels(X_labels)
     ax.set_xlabel("Burst Size")
     ax.set_ylabel("Aggregated Throughput (GB/s)")
-    ax.legend(loc="upper left", frameon=False)
+    # ax.legend(loc="upper left", frameon=False)
+
+    plt.legend(
+        bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand", borderaxespad=0, ncol=2, frameon=False
+    )
 
     fig.tight_layout()
     plt.savefig("throughput/throughput.pdf", format="pdf", dpi=500)

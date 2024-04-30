@@ -47,11 +47,11 @@ plt.rcParams.update(
         "axes.spines.bottom": False,
         "axes.spines.left": False,
         "axes.axisbelow": True,  # grid below patches
-        "legend.labelspacing": 0.15,
+        "legend.labelspacing": 0.1,
         "legend.handlelength": 1,
-        "legend.handletextpad": 0.2,
+        "legend.handletextpad": 0.1,
         "legend.columnspacing": 1,
-        "legend.borderpad": 0.3,
+        "legend.borderpad": 0.1,
     }
 )
 
@@ -84,47 +84,47 @@ COLLECTIVES = [
 ]
 
 
-def do_plot_latency(benchmark, medians, stdevs):
+def do_plots(benchmark, medians, stdevs):
     # fig, ax = plt.subplots()
-    fig, ax = plt.subplots(1, 1, figsize=(2.2, 2))
-    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.6))
+    # plt.subplots_adjust(top=0.65, bottom=0.2, left=0.1, right=0.9, hspace=1)
 
     # ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
-    ax.grid(zorder=0)
+    ax1.grid(zorder=0)
 
     X = np.arange(len(GRANULARITIES))
+    # X = np.arange(len(GRANULARITIES) - 1)
     X_labels = [str(granularity) for granularity in GRANULARITIES]
+    # X_labels = [str(granularity) for granularity in GRANULARITIES if granularity != 1]
 
-    ax.set_xticks(X)
-    ax.set_xticklabels(X_labels)
+    ax1.set_xticks(X)
+    ax1.set_xticklabels(X_labels)
+
+    handles = []
 
     for burst_size in BURST_SIZES:
-        ax.errorbar(
+        handle = ax1.errorbar(
             X,
             list(medians[benchmark][burst_size].values()),
+            # list(medians[benchmark][burst_size].values())[1:],
             yerr=list(stdevs[benchmark][burst_size].values()),
+            # yerr=list(stdevs[benchmark][burst_size].values())[1:],
             marker="D",
             ls="--",
             capsize=3.0,
             label=str(burst_size),
             zorder=3,
         )
+        handles.append(handle)
 
-    ax.set_xlabel("Granularity")
-    ax.set_ylabel("Latency (s)")
-    ax.legend(title="Burst Size")
+    ax1.set_xlabel("Granularity")
+    ax1.set_ylabel("Latency (s)")
+    # ax1.legend(title="Burst Size")
     # ax.set_title(f"{benchmark} Latency")
 
-    fig.tight_layout()
-
-    # plt.savefig(f"collectives/{benchmark}-latency.pdf", dpi=300)
-    plt.savefig(f"collectives/{benchmark}-latency.pdf", dpi=300)
-    plt.close(fig)
-
-
-def do_plot_percent(benchmark, medians, stdevs):
     percent_reduction = {
         burst_size: {granularity: 0.0 for granularity in GRANULARITIES if granularity != 1}
+        # burst_size: {granularity: 0.0 for granularity in GRANULARITIES}
         for burst_size in BURST_SIZES
     }
 
@@ -138,19 +138,18 @@ def do_plot_percent(benchmark, medians, stdevs):
             print(f"{burst_size=} {granularity=} {reduction=:.2f}")
             percent_reduction[burst_size][granularity] = round(reduction * 100)
 
-    fig, ax = plt.subplots(1, 1, figsize=(2.2, 2))
-    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
+    ax2.grid(zorder=0)
 
-    ax.grid(zorder=0)
-
+    # X = np.arange(len(GRANULARITIES))
     X = np.arange(len(GRANULARITIES) - 1)
+    # X_labels = [str(granularity) for granularity in GRANULARITIES]
     X_labels = [str(granularity) for granularity in GRANULARITIES if granularity != 1]
 
-    ax.set_xticks(X)
-    ax.set_xticklabels(X_labels)
+    ax2.set_xticks(X)
+    ax2.set_xticklabels(X_labels)
 
     for burst_size in BURST_SIZES:
-        ax.plot(
+        ax2.plot(
             X,
             list(percent_reduction[burst_size].values()),
             marker="D",
@@ -159,74 +158,27 @@ def do_plot_percent(benchmark, medians, stdevs):
             zorder=3,
         )
 
-    ax.set_xlabel("Granularity")
-    ax.set_ylabel("Latency Reduction\nrespect to Granularity 1 (\%)")
-    ax.legend(title="Burst Size")
-    # ax.set_title(f"{benchmark} Latency Reduction")
+    ax2.set_xlabel("Granularity")
+    ax2.set_ylabel("Latency Reduction\ncompared to\nGranularity 1 (\%)")
+    # ax2.legend(title="Burst Size")
 
-    fig.tight_layout()
-
-    # plt.savefig(f"collectives/{benchmark}-percent.pdf", dpi=300)
-    plt.savefig(f"collectives/{benchmark}-percent.pdf", dpi=300)
-    plt.close(fig)
-
-
-def do_plot_histogram(run_data, title=None):
-    fig, ax = plt.subplots(figsize=(10, 10))
-
-    benchmark = run_data["benchmark"].iloc[0]
-
-    min_tstamp = run_data["start"].min()
-    max_tstamp = run_data["end"].max()
-    max_t = max_tstamp - min_tstamp
-
-    ax.set_title("{benchmark} Execution Times")
-    ax.set_xlabel("Execution Time (s)")
-    ax.set_ylabel("Worker ID")
-
-    ax.set_ylim(-1, run_data["burst_size"].values[0] + 1)
-    ax.set_yticks(np.arange(0, run_data["burst_size"].values[0] + 1, 6))
-
-    ax.grid(linestyle="--", linewidth=0.5)
-
-    run_data_sorted = run_data.sort_values(by="worker_id")
-
-    line_segments = LineCollection(
-        [
-            [(worker["start"] - min_tstamp, worker["worker_id"]), (worker["end"] - min_tstamp, worker["worker_id"])]
-            for _, worker in run_data_sorted.iterrows()
-        ],
-        linestyles="solid",
-        color="k",
-        alpha=1,
-        linewidth=1,
+    fig.legend(
+        handles,
+        [str(burst_size) for burst_size in BURST_SIZES],
+        bbox_to_anchor=(0.7, 1.00),
+        # loc="upper center",
+        # mode="expand",
+        # borderaxespad=0,
+        ncol=3,
+        frameon=False,
+        title="Burst Size",
     )
-    ax.add_collection(line_segments)
-
-    ax.axvline(x=max_t, color="tab:blue", linestyle="--", label="Collective Completion Time")
-
-    # add a line to represent the parallelism
-    max_seconds = 4 * math.ceil(max_t / 4)
-    parallelism = np.zeros(max_seconds)
-
-    for _, worker in run_data_sorted.iterrows():
-        f_start = math.ceil(worker["start"] - min_tstamp)
-        f_stop = math.ceil(worker["end"] - min_tstamp)
-        parallelism[f_start:f_stop] += 1
-
-    ax.plot(parallelism, color="tab:red", label="Parallelism")
-
-    # legend
-    ax.legend(loc="upper right")
-
-    if title is None:
-        title = f"{benchmark} Execution Times"
-    # ax.set_title(title)
 
     fig.tight_layout()
+    plt.subplots_adjust(top=0.7, bottom=0.2)
 
-    # save plot
-    plt.savefig(f"collectives/parallelism/{title}.pdf", dpi=300)
+    # plt.savefig(f"collectives/{benchmark}-latency.pdf", dpi=300)
+    plt.savefig(f"collectives/{benchmark}-2in1.pdf", dpi=300)
     plt.close(fig)
 
 
@@ -303,15 +255,4 @@ if __name__ == "__main__":
                     stdevs[collective][burst_size][granularity] = 0.0
 
     for collective in COLLECTIVES:
-        do_plot_latency(collective, medians, stdevs)
-        do_plot_percent(collective, medians, stdevs)
-        # for burst_size in BURST_SIZES:
-        #     for granularity in GRANULARITIES:
-        #         do_plot_histogram(
-        #             fastest_run[collective][burst_size][granularity],
-        #             f"{collective} Execution Times (fastest run, {burst_size=}, {granularity=})",
-        #         )
-        #         do_plot_histogram(
-        #             slowest_run[collective][burst_size][granularity],
-        #             f"{collective} Execution Times (slowest run, {burst_size=}, {granularity=})",
-        #         )
+        do_plots(collective, medians, stdevs)

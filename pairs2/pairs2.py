@@ -186,7 +186,8 @@ if __name__ == "__main__":
     ax.grid(zorder=0)
     bar_width = 0.12
 
-    ax.set_ylim(0, 600)
+    ax.set_ylim(0, 400)
+    ax.set_yticks(np.arange(0, 401, 50))
 
     kwargs = {
         "width": bar_width,
@@ -217,7 +218,7 @@ if __name__ == "__main__":
         X - (bar_width * 0) - (bar_width / 2),
         Y_throughput["DragonflyList"],
         yerr=Y_throughput_stdev["DragonflyList"],
-        label="DragonflyDB\nList",
+        label="DragonflyDB List",
         **kwargs,
     )
     ax.bar(
@@ -231,7 +232,7 @@ if __name__ == "__main__":
         X + (bar_width * 1) + (bar_width / 2),
         Y_throughput["DragonflyStream"],
         yerr=Y_throughput_stdev["DragonflyStream"],
-        label="DragonflyDB\nStream",
+        label="DragonflyDB Stream",
         **kwargs,
     )
     ax.bar(
@@ -250,12 +251,15 @@ if __name__ == "__main__":
     ax.set_xlabel("Chunk Size")
     ax.set_ylabel("Throughput (MB/s)")
 
-    ax.legend(
-        ncols=2,
-        frameon=False,
-        loc="upper left",
-        # bbox_to_anchor=(0, 1.02, 1, 0.2),
+    # ax.legend(
+    #     ncols=2,
+    #     frameon=False,
+    #     loc="upper left",
+    #     # bbox_to_anchor=(0, 1.02, 1, 0.2),
+    # )
+    plt.legend(
+        bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand", borderaxespad=0, ncol=2, frameon=False
     )
 
     fig.tight_layout()
-    plt.savefig("pairs2/throughput.pdf", format="pdf", dpi=500)
+    plt.savefig("pairs2/throughput-pair.pdf", format="pdf", dpi=500)

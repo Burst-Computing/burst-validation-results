@@ -52,13 +52,13 @@ plt.rcParams.update(
 
 # path, burst size, granularity
 INPUT_FILES = [
-    ("aws/g1/", 1),
-    ("aws/g2/", 2),
-    ("aws/g4/", 4),
-    ("aws/g8/", 8),
-    ("aws/g16/", 16),
-    ("aws/g32/", 32),
-    ("aws/g64/", 64),
+    ("pagerank/aws/g1/", 1),
+    ("pagerank/aws/g2/", 2),
+    ("pagerank/aws/g4/", 4),
+    ("pagerank/aws/g8/", 8),
+    ("pagerank/aws/g16/", 16),
+    ("pagerank/aws/g32/", 32),
+    ("pagerank/aws/g64/", 64),
 ]
 
 IERATIONS = 10
@@ -128,7 +128,7 @@ def single_plot(data_download_t, comm_t, compute_t, granularities):
     compute_t = np.array(compute_t)
 
     X = np.arange(len(granularities))
-    fig, ax = plt.subplots(figsize=(3.33, 2.4))
+    fig, ax = plt.subplots(figsize=(3.33, 2))
     plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
     ax.grid(zorder=0)
@@ -141,7 +141,7 @@ def single_plot(data_download_t, comm_t, compute_t, granularities):
     ax.bar(X, compute_t, label="Computation", bottom=data_download_t, zorder=2)
     ax.bar(X, comm_t, label="Communication overhead", bottom=data_download_t + compute_t, zorder=2)
 
-    ax.set_ylabel("Accumulated Execution time (s)")
+    ax.set_ylabel("Accumulated\nExecution time (s)")
     ax.set_xlabel("Granularity")
     ax.set_title("Pagerank Execution Time Breakdown")
 
@@ -149,7 +149,7 @@ def single_plot(data_download_t, comm_t, compute_t, granularities):
 
     fig.tight_layout()
 
-    fig.savefig("pagerank_execution_time_breakdown.png", dpi=500)
+    fig.savefig("pagerank/pagerank_execution_time_breakdown.pdf", dpi=500)
 
 
 def broken_plot(data_download_t, comm_t, compute_t, granularities):
@@ -158,9 +158,8 @@ def broken_plot(data_download_t, comm_t, compute_t, granularities):
     compute_t = np.array(compute_t)
 
     X = np.arange(len(granularities))
-    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(3.33, 2.4))
+    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(3.33, 2))
     fig.subplots_adjust(hspace=0.05)  # adjust space between axes
-    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
     # ax1.grid(True, which="major", axis="y", linestyle="--", alpha=0.5)
     ax1.grid(zorder=0)
@@ -191,15 +190,16 @@ def broken_plot(data_download_t, comm_t, compute_t, granularities):
     # ax2.plot([0, 1], [1, 1], transform=ax2.transAxes, **kwargs)
 
     # ax2.set_ylabel("Accumulated Execution time (s)")
-    fig.text(0.0001, 0.5, "Accumulated Execution time (s)", va="center", rotation="vertical")
+    fig.text(0.0001, 0.5, "Accumulated\nExecution time (s)", va="center", rotation="vertical")
     ax2.set_xlabel("Granularity")
     # ax1.set_title("Pagerank Execution Time Breakdown")
 
     ax1.legend()
 
     fig.tight_layout()
+    plt.subplots_adjust(left=0.175)
 
-    fig.savefig("pagerank_execution_time_breakdown2.png", dpi=500)
+    fig.savefig("pagerank/pagerank_execution_time_breakdown2.pdf", dpi=500)
 
 
 if __name__ == "__main__":

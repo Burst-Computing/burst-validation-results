@@ -42,7 +42,7 @@ plt.rcParams.update(
         "legend.handlelength": 1,
         "legend.handletextpad": 0.2,
         "legend.columnspacing": 1,
-        "legend.borderpad": 0.1,
+        "legend.borderpad": 0.2,
     }
 )
 
@@ -99,6 +99,10 @@ if __name__ == "__main__":
             remote_bytes_tx += 64 / 8  # root sends once to all, err is a f64
             remote_bytes_rx += groups * (64 / 8)  # each group receives once, err is a f64
 
+        print("Granularity:", granularity)
+        print("Remote bytes tx (GB):", remote_bytes_tx / 1000 / 1000 / 1000)
+        print("Remote bytes rx (GB):", remote_bytes_rx / 1000 / 1000 / 1000)
+
         traffic_granularity_tx.append(remote_bytes_tx)
         traffic_granularity_rx.append(remote_bytes_rx)
 
@@ -108,18 +112,19 @@ if __name__ == "__main__":
     traffic_granularity_tx /= 1000 * 1000 * 1000
     traffic_granularity_rx /= 1000 * 1000 * 1000
 
-    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2))
     plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
     X = np.arange(len(GRANULARITIES))
     ax.set_xticks(X)
     ax.set_xticklabels([str(g) for g in GRANULARITIES])
     ax.grid(zorder=1)
+    bar_width = 0.25
 
     ax.bar(
-        X - 0.1,
+        X - (bar_width * 0) - (bar_width / 2),
         traffic_granularity_tx,
-        width=0.15,
+        width=bar_width,
         edgecolor="black",
         lw=1,
         label="Transmitted",
@@ -127,9 +132,9 @@ if __name__ == "__main__":
         zorder=2,
     )
     ax.bar(
-        X + 0.1,
+        X + (bar_width * 0) + (bar_width / 2),
         traffic_granularity_rx,
-        width=0.15,
+        width=bar_width,
         edgecolor="black",
         lw=1,
         label="Received",
@@ -138,10 +143,10 @@ if __name__ == "__main__":
     )
 
     ax.set_xlabel("Granularity")
-    ax.set_ylabel("Traffic (GB)")
+    ax.set_ylabel("Total Network Traffic (GB)")
     # ax.set_title("Network Traffic (1 iteration)")
 
     ax.legend()
     fig.tight_layout()
 
-    plt.savefig("net_traffic.png", dpi=300)
+    plt.savefig("pagerank/net_traffic.pdf", dpi=300)
