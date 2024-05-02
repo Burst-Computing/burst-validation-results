@@ -5,19 +5,20 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 from cycler import cycler
 
+mpl.use("pgf")
 plt.rcParams.update(
     {
         "text.usetex": True,
         "font.family": "serif",
-        # "pgf.texsystem": "pdflatex",
+        "pgf.texsystem": "pdflatex",
         "font.size": 9,  # footnote/caption size 9pt for paper
         # "font.size": 10,     # caption size 10pt on thesis
-        # "pgf.preamble": "\n".join(
-        #     [
-        #         r"\usepackage{libertine}",
-        #         # r"\usepackage{lmodern}",
-        #     ]
-        # ),
+        "pgf.preamble": "\n".join(
+            [
+                r"\usepackage{libertine}",
+                # r"\usepackage{lmodern}",
+            ]
+        ),
         # "lines.linewidth": 0.8,
         "lines.markersize": 3,
         "axes.linewidth": 0.5,
@@ -122,7 +123,7 @@ if __name__ == "__main__":
             throughput_avg = np.median(throughputs)
             throughput_std_dev = np.std(throughputs)
 
-            print(f"{backend} Throoughput ({chunk_size_label}): {throughput_avg:.2f} MB/s ± {throughput_std_dev:.2f}")
+            print(f"{backend} Throughput ({chunk_size_label}): {throughput_avg:.2f} MB/s ± {throughput_std_dev:.2f}")
             Y_throughput[backend].append(throughput_avg)
             Y_throughput_stdev[backend].append(throughput_std_dev)
 

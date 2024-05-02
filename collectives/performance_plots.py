@@ -13,19 +13,20 @@ from cycler import cycler
 # plt.style.use("matplotlib")
 
 
+mpl.use("pgf")
 plt.rcParams.update(
     {
         "text.usetex": True,
         "font.family": "serif",
-        # "pgf.texsystem": "pdflatex",
+        "pgf.texsystem": "pdflatex",
         "font.size": 9,  # footnote/caption size 9pt for paper
         # "font.size": 10,     # caption size 10pt on thesis
-        # "pgf.preamble": "\n".join(
-        #     [
-        #         r"\usepackage{libertine}",
-        #         # r"\usepackage{lmodern}",
-        #     ]
-        # ),
+        "pgf.preamble": "\n".join(
+            [
+                r"\usepackage{libertine}",
+                # r"\usepackage{lmodern}",
+            ]
+        ),
         # "lines.linewidth": 0.8,
         "lines.markersize": 3,
         "axes.linewidth": 0.5,

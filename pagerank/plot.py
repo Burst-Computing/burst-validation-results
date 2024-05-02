@@ -8,19 +8,20 @@ import pandas as pd
 from pprint import pprint
 from cycler import cycler
 
+mpl.use("pgf")
 plt.rcParams.update(
     {
         "text.usetex": True,
         "font.family": "serif",
-        # "pgf.texsystem": "pdflatex",
+        "pgf.texsystem": "pdflatex",
         "font.size": 9,  # footnote/caption size 9pt for paper
         # "font.size": 10,     # caption size 10pt on thesis
-        # "pgf.preamble": "\n".join(
-        #     [
-        #         r"\usepackage{libertine}",
-        #         # r"\usepackage{lmodern}",
-        #     ]
-        # ),
+        "pgf.preamble": "\n".join(
+            [
+                r"\usepackage{libertine}",
+                # r"\usepackage{lmodern}",
+            ]
+        ),
         # "lines.linewidth": 0.8,
         "lines.markersize": 3,
         "axes.linewidth": 0.5,
@@ -46,7 +47,7 @@ plt.rcParams.update(
         "legend.handlelength": 1,
         "legend.handletextpad": 0.2,
         "legend.columnspacing": 1,
-        "legend.borderpad": 0.1,
+        "legend.borderpad": 0.3,
     }
 )
 
