@@ -31,7 +31,7 @@ plt.rcParams.update(
         # "ytick.color": mpl.rcParams["grid.color"],
         "ytick.direction": "in",
         # "xtick.color": mpl.rcParams["grid.color"],
-        "xtick.direction": "in",
+        # "xtick.direction": "in",
         "axes.titlesize": "medium",
         "axes.titlepad": 4,
         "axes.labelpad": 1,

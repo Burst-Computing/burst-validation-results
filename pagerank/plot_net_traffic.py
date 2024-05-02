@@ -4,19 +4,20 @@ import math
 import numpy as np
 from cycler import cycler
 
+mpl.use("pgf")
 plt.rcParams.update(
     {
         "text.usetex": True,
         "font.family": "serif",
-        # "pgf.texsystem": "pdflatex",
+        "pgf.texsystem": "pdflatex",
         "font.size": 9,  # footnote/caption size 9pt for paper
         # "font.size": 10,     # caption size 10pt on thesis
-        # "pgf.preamble": "\n".join(
-        #     [
-        #         r"\usepackage{libertine}",
-        #         # r"\usepackage{lmodern}",
-        #     ]
-        # ),
+        "pgf.preamble": "\n".join(
+            [
+                r"\usepackage{libertine}",
+                # r"\usepackage{lmodern}",
+            ]
+        ),
         # "lines.linewidth": 0.8,
         "lines.markersize": 3,
         "axes.linewidth": 0.5,
@@ -26,7 +27,7 @@ plt.rcParams.update(
         # "ytick.color": mpl.rcParams["grid.color"],
         "ytick.direction": "in",
         # "xtick.color": mpl.rcParams["grid.color"],
-        "xtick.direction": "in",
+        # "xtick.direction": "in",
         "axes.titlesize": "medium",
         "axes.titlepad": 4,
         "axes.labelpad": 1,
@@ -42,7 +43,7 @@ plt.rcParams.update(
         "legend.handlelength": 1,
         "legend.handletextpad": 0.2,
         "legend.columnspacing": 1,
-        "legend.borderpad": 0.2,
+        "legend.borderpad": 0.3,
     }
 )
 
@@ -125,20 +126,20 @@ if __name__ == "__main__":
         X - (bar_width * 0) - (bar_width / 2),
         traffic_granularity_tx,
         width=bar_width,
-        edgecolor="black",
+        # edgecolor="black",
         lw=1,
         label="Transmitted",
-        color="tab:red",
+        # color="tab:red",
         zorder=2,
     )
     ax.bar(
         X + (bar_width * 0) + (bar_width / 2),
         traffic_granularity_rx,
         width=bar_width,
-        edgecolor="black",
+        # edgecolor="black",
         lw=1,
         label="Received",
-        color="tab:blue",
+        # color="tab:blue",
         zorder=2,
     )
 
