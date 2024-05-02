@@ -103,7 +103,7 @@ if __name__ == "__main__":
     # X_labels = [str(size) for size in BURST_SIZES]
     # X = np.arange(len(X_labels))
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.6))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.2))
     # plt.subplots_adjust(top=0.8, bottom=0.1, left=0.1, right=0.9)
 
     # ax.set_ylim(0, 3)
@@ -127,7 +127,7 @@ if __name__ == "__main__":
             last,
             label=service,
         )
-        ax1.plot(first, x, marker='|', color='k', markersize=14)
+        ax1.plot(first, x, marker='|', color='k', markersize=10)
 
 
     
@@ -149,13 +149,14 @@ if __name__ == "__main__":
             last,
             # label=service,
         )
-        ax2.plot(first, x, marker='|', color='k', markersize=14)
+        ax2.plot(first, x, marker='|', color='k', markersize=10)
 
     fig.legend(
          loc="upper left", mode="expand", borderaxespad=0, ncol=4, frameon=False
     )
 
     fig.tight_layout()
+    plt.subplots_adjust(top=0.85, bottom=0.25)
     plt.savefig("startup/faas-startup.pdf", format="pdf", dpi=500)
 
 
