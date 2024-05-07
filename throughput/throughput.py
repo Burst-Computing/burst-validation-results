@@ -29,6 +29,7 @@ plt.rcParams.update(
         "ytick.direction": "in",
         # "xtick.color": mpl.rcParams["grid.color"],
         "xtick.direction": "in",
+        "xtick.bottom": False,
         "axes.titlesize": "medium",
         "axes.titlepad": 4,
         "axes.labelpad": 1,
@@ -135,7 +136,7 @@ if __name__ == "__main__":
             throughput_avg = np.median(runs)
             throughput_std_dev = np.std(runs)
 
-            print(f"{backend} Throughput ({burst_size}): {throughput_avg:.2f} GB/s ± {throughput_std_dev:.2f} GB/s")
+            print(f"{backend} Throughput ({burst_size}): {throughput_avg:.2f} GiB/s ± {throughput_std_dev:.2f} GB/s")
 
             Y_throughput[backend].append(throughput_avg)
             Y_throughput_stdev[backend].append(throughput_std_dev)
@@ -144,8 +145,7 @@ if __name__ == "__main__":
     X_labels = [str(burst_size) for burst_size in BURST_SIZES]
     X = np.arange(len(X_labels))
 
-    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
-    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.2))
 
     ax.set_ylim(0, 3)
     ax.set_yticks(np.arange(0, 3.1, 0.5))
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     ax.set_xticks(X)
     ax.set_xticklabels(X_labels)
     ax.set_xlabel("Burst Size")
-    ax.set_ylabel("Aggregated Throughput (GB/s)")
+    ax.set_ylabel("Aggregated Throughput (GiB/s)")
     # ax.legend(loc="upper left", frameon=False)
 
     plt.legend(
@@ -226,6 +226,7 @@ if __name__ == "__main__":
     )
 
     fig.tight_layout()
+    plt.subplots_adjust(top=0.8, bottom=0.14)
     plt.savefig("throughput/throughput.pdf", format="pdf", dpi=500)
 
     # fig, ax = plt.subplots()

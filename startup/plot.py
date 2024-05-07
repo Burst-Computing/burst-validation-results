@@ -55,10 +55,10 @@ BURST_SIZES = [
 ]
 
 SERVICES = [
-    "AWS 256 MB",
-    "AWS 10 GB",
-    "GCP 256 MB",
-    "GCP 8 GB",
+    "AWS 256 MiB",
+    "AWS 10 GiB",
+    "GCP 256 MiB",
+    "GCP 8 GiB",
 ]
 
 FILES = [
@@ -127,7 +127,7 @@ if __name__ == "__main__":
             last,
             label=service,
         )
-        ax1.plot(first, x, marker='|', color='k', markersize=10)
+        ax1.plot(first, x, marker='|', color='k', markersize=9)
 
 
     
@@ -149,14 +149,14 @@ if __name__ == "__main__":
             last,
             # label=service,
         )
-        ax2.plot(first, x, marker='|', color='k', markersize=10)
+        ax2.plot(first, x, marker='|', color='k', markersize=9)
 
     fig.legend(
          loc="upper left", mode="expand", borderaxespad=0, ncol=4, frameon=False
     )
 
     fig.tight_layout()
-    plt.subplots_adjust(top=0.85, bottom=0.25)
+    plt.subplots_adjust(top=0.82, bottom=0.25)
     plt.savefig("startup/faas-startup.pdf", format="pdf", dpi=500)
 
 

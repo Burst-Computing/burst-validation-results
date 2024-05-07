@@ -12,7 +12,6 @@ plt.rcParams.update(
         "font.family": "serif",
         "pgf.texsystem": "pdflatex",
         "font.size": 9,  # footnote/caption size 9pt for paper
-        # "font.size": 10,     # caption size 10pt on thesis
         "pgf.preamble": "\n".join(
             [
                 r"\usepackage{libertine}",
@@ -29,6 +28,7 @@ plt.rcParams.update(
         "ytick.direction": "in",
         # "xtick.color": mpl.rcParams["grid.color"],
         "xtick.direction": "in",
+        "xtick.bottom": False,
         "axes.titlesize": "medium",
         "axes.titlepad": 4,
         "axes.labelpad": 1,
@@ -50,11 +50,11 @@ plt.rcParams.update(
 
 
 CHUNK_SIZES = [
-    (65536, "64KB"),
-    (1048576, "1MB"),
-    (67108864, "64MB"),
-    (134217728, "128MB"),
-    (268435456, "256MB"),
+    (65536, "64 KiB"),
+    (1048576, "1 MiB"),
+    (67108864, "64 MiB"),
+    (134217728, "128 MiB"),
+    (268435456, "256 MiB"),
 ]
 
 BACKENDS = {
@@ -123,7 +123,7 @@ if __name__ == "__main__":
             throughput_avg = np.median(throughputs)
             throughput_std_dev = np.std(throughputs)
 
-            print(f"{backend} Throughput ({chunk_size_label}): {throughput_avg:.2f} MB/s ± {throughput_std_dev:.2f}")
+            print(f"{backend} Throughput ({chunk_size_label}): {throughput_avg:.2f} MiB/s ± {throughput_std_dev:.2f}")
             Y_throughput[backend].append(throughput_avg)
             Y_throughput_stdev[backend].append(throughput_std_dev)
 
@@ -181,8 +181,7 @@ if __name__ == "__main__":
     # fig.tight_layout()
     # plt.savefig("pairs2/latency.pdf", format="pdf", dpi=500)
 
-    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.4))
-    plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.2))
 
     ax.grid(zorder=0)
     bar_width = 0.12
@@ -250,7 +249,7 @@ if __name__ == "__main__":
     ax.set_xticks(X)
     ax.set_xticklabels(X_labels)
     ax.set_xlabel("Chunk Size")
-    ax.set_ylabel("Throughput (MB/s)")
+    ax.set_ylabel("Throughput (MiB/s)")
 
     # ax.legend(
     #     ncols=2,
@@ -263,4 +262,5 @@ if __name__ == "__main__":
     )
 
     fig.tight_layout()
+    plt.subplots_adjust(top=0.8, bottom=0.14)
     plt.savefig("pairs2/throughput-pair.pdf", format="pdf", dpi=500)
