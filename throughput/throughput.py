@@ -136,7 +136,7 @@ if __name__ == "__main__":
             throughput_avg = np.median(runs)
             throughput_std_dev = np.std(runs)
 
-            print(f"{backend} Throughput ({burst_size}): {throughput_avg:.2f} GiB/s ± {throughput_std_dev:.2f} GB/s")
+            print(f"{backend} Throughput ({burst_size}): {throughput_avg:.2f} GiB/s ± {throughput_std_dev:.2f} GiB/s")
 
             Y_throughput[backend].append(throughput_avg)
             Y_throughput_stdev[backend].append(throughput_std_dev)

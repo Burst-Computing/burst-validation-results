@@ -55,21 +55,23 @@ BURST_SIZES = [
 ]
 
 SERVICES = [
-    "AWS 256 MiB",
-    "AWS 10 GiB",
-    "GCP 256 MiB",
-    "GCP 8 GiB",
+    "100 x 256 MiB",
+    "100 x 10 GiB",
+    "1000 x 256 MiB",
+    "1000 x 10 GiB",
+    # "GCP 256 MiB",
+    # "GCP 8 GiB",
 ]
 
 FILES = [
     "startup/aws-100func-single256.csv",
     "startup/aws-100func-biglambda.csv",
-    "startup/gcp-100-256MB.csv",
-    "startup/gcp-100-8192MB.csv",
+    # "startup/gcp-100-256MB.csv",
+    # "startup/gcp-100-8192MB.csv",
     "startup/aws-1000func-single256.csv",
     "startup/aws-1000func-biglambda.csv",
-    "startup/gcp-1000-256MB.csv",
-    "startup/gcp-1000-8192MB.csv",
+    # "startup/gcp-1000-256MB.csv",
+    # "startup/gcp-1000-8192MB.csv",
 ]
 
 
@@ -92,10 +94,10 @@ if __name__ == "__main__":
 
     tups = zip(mins, maxs, ctns)
     
-    for size in BURST_SIZES:
-        for service in SERVICES:
-            tup = next(tups)
-            print(f"{service} - {tup[2]} Min: {tup[0]} Max: {tup[1]}")
+    # for size in BURST_SIZES:
+    for service in SERVICES:
+        tup = next(tups)
+        print(f"{service} - {tup[2]} Min: {tup[0]} Max: {tup[1]}")
 
 
     # PLOT
@@ -131,25 +133,25 @@ if __name__ == "__main__":
 
 
     
-    ax2.grid(which='both', axis='x', zorder=1)
-    ax2.grid(which='minor', axis='x', linewidth=0.1, linestyle="--")
-    ax2.minorticks_on()
-    ax2.tick_params(axis='y', which='both', left=False)
+    # ax2.grid(which='both', axis='x', zorder=1)
+    # ax2.grid(which='minor', axis='x', linewidth=0.1, linestyle="--")
+    # ax2.minorticks_on()
+    # ax2.tick_params(axis='y', which='both', left=False)
 
-    ax2.set_yticklabels([])
-    ax2.set_xlabel("Time (s)")
+    # ax2.set_yticklabels([])
+    # ax2.set_xlabel("Time (s)")
 
-    X = count()
+    # X = count()
     
-    for service in SERVICES:
-        (first, last) = next(data)
-        x = next(X)
-        ax2.barh(
-            x,
-            last,
-            # label=service,
-        )
-        ax2.plot(first, x, marker='|', color='k', markersize=9)
+    # for service in SERVICES:
+    #     (first, last) = next(data)
+    #     x = next(X)
+    #     ax2.barh(
+    #         x,
+    #         last,
+    #         # label=service,
+    #     )
+    #     ax2.plot(first, x, marker='|', color='k', markersize=9)
 
     fig.legend(
          loc="upper left", mode="expand", borderaxespad=0, ncol=4, frameon=False
@@ -162,11 +164,11 @@ if __name__ == "__main__":
 
     # CDF
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.6))
+    fig, ax1 = plt.subplots(1, 1, figsize=(3.33, 1.4))
     plt.subplots_adjust(top=0.85, bottom=0.2, left=0.12, right=0.95)
-    plt.subplots_adjust(wspace=0.3, hspace=.6)
+    # plt.subplots_adjust(wspace=0.3, hspace=.6)
 
-    ax1.set_xlim(0, 30)
+    ax1.set_xlim(0, 10)
     # ax1.set_ylim(0, 1)
     # ax.set_yticks(np.arange(0, 3.1, 0.5))
 
@@ -189,28 +191,28 @@ if __name__ == "__main__":
         )
 
     
-    ax2.set_xlim(0, 55)
-    # ax2.set_ylim(0, 1)
-    ax2.grid(which='both', axis='both')
-    ax2.grid(which='minor', axis='both', linewidth=0.1, linestyle="--")
-    # ax2.minorticks_on()
-    # ax2.tick_params(axis='y', which='both', left=False)
+    # ax2.set_xlim(0, 10)
+    # # ax2.set_ylim(0, 1)
+    # ax2.grid(which='both', axis='both')
+    # ax2.grid(which='minor', axis='both', linewidth=0.1, linestyle="--")
+    # # ax2.minorticks_on()
+    # # ax2.tick_params(axis='y', which='both', left=False)
 
-    # ax2.set_yticklabels([])
-    ax2.set_xlabel("Time (s)")
-    # ax2.set_ylabel("CDF")
+    # # ax2.set_yticklabels([])
+    # ax2.set_xlabel("Time (s)")
+    # # ax2.set_ylabel("CDF")
     
-    for service in SERVICES:
-        times = next(data).sort_values()
-        cumu = np.linspace(1/times.size, 1, times.size)
-        ax2.plot(
-            times,
-            cumu,
-            # label=service,
-        )
+    # for service in SERVICES:
+    #     times = next(data).sort_values()
+    #     cumu = np.linspace(1/times.size, 1, times.size)
+    #     ax2.plot(
+    #         times,
+    #         cumu,
+    #         # label=service,
+    #     )
 
     fig.legend(
-         loc="upper left", mode="expand", borderaxespad=0, ncol=4, frameon=False
+         loc="upper center", borderaxespad=0, ncol=2, frameon=False
     )
 
     # fig.tight_layout()
