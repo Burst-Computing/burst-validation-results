@@ -36,9 +36,9 @@ plt.rcParams.update(
         "axes.titlepad": 4,
         "axes.labelpad": 1,
         "axes.spines.top": False,
-        "axes.spines.right": False,
+        "axes.spines.right": True,
         "axes.spines.bottom": False,
-        "axes.spines.left": False,
+        "axes.spines.left": True,
         "axes.axisbelow": True,  # grid below patches
         "axes.prop_cycle": cycler(
             "color", ["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]
@@ -185,10 +185,20 @@ def broken_plot(data_download_t, comm_t, compute_t, granularities):
     ax1.bar(X, comm_t, label="Communication overhead", bottom=data_download_t + compute_t, zorder=2)
     ax2.bar(X, comm_t, label="Communication overhead", bottom=data_download_t + compute_t, zorder=2)
 
-    # d = 0.5  # proportion of vertical to horizontal extent of the slanted line
-    # kwargs = dict(marker=[(-1, -d), (1, d)], markersize=12, linestyle="none", color="k", mec="k", mew=1, clip_on=False)
-    # ax1.plot([0, 1], [0, 0], transform=ax1.transAxes, **kwargs)
-    # ax2.plot([0, 1], [1, 1], transform=ax2.transAxes, **kwargs)
+    d = 0  # proportion of vertical to horizontal extent of the slanted line
+    kwargs = dict(
+        marker=[(-1, -d), (1, d)],
+        markersize=6,
+        linestyle="none",
+        color="k",
+        mec="k",
+        mew=1,
+        clip_on=False,
+        alpha=1.0,
+        zorder=2,
+    )
+    ax1.plot([0, 1], [0, 0], transform=ax1.transAxes, **kwargs)
+    ax2.plot([0, 1], [1, 1], transform=ax2.transAxes, **kwargs)
 
     # ax2.set_ylabel("Accumulated Execution time (s)")
     fig.text(0.0001, 0.5, "Accumulated\nExecution time (s)", va="center", rotation="vertical")

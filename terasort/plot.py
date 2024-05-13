@@ -8,19 +8,21 @@ import math
 import os
 import pandas as pd
 
+
+mpl.use("pgf")
 plt.rcParams.update(
     {
         "text.usetex": True,
         "font.family": "serif",
-        # "pgf.texsystem": "pdflatex",
+        "pgf.texsystem": "pdflatex",
         "font.size": 9,  # footnote/caption size 9pt for paper
         # "font.size": 10,     # caption size 10pt on thesis
-        # "pgf.preamble": "\n".join(
-        #     [
-        #         r"\usepackage{libertine}",
-        #         # r"\usepackage{lmodern}",
-        #     ]
-        # ),
+        "pgf.preamble": "\n".join(
+            [
+                r"\usepackage{libertine}",
+                # r"\usepackage{lmodern}",
+            ]
+        ),
         # "lines.linewidth": 0.8,
         "lines.markersize": 3,
         "axes.linewidth": 0.5,
@@ -153,17 +155,20 @@ if __name__ == "__main__":
 
     lc_handles = []
 
+    print("Max worker runtime map:", mr_df["end_fn_map"].idxmax(), mr_df["end_fn_map"].max())
+
+    # x1 = (mr_df["init_fn_map"] - mr_t0) / 1000
+    # x2 = (mr_df["post_download_map"] - mr_t0) / 1000
+
+    # line_segments = create_line_segments(x1, x2, Y, "tab:blue", "Input download", "-", 0.9)
+    # ax1.add_collection(line_segments)
+    # lc_handles.append(line_segments)
+
+    # x1 = (mr_df["post_download_map"] - mr_t0) / 1000
     x1 = (mr_df["init_fn_map"] - mr_t0) / 1000
-    x2 = (mr_df["post_download_map"] - mr_t0) / 1000
-
-    line_segments = create_line_segments(x1, x2, Y, "tab:blue", "Input download", "-", 0.9)
-    ax1.add_collection(line_segments)
-    lc_handles.append(line_segments)
-
-    x1 = (mr_df["post_download_map"] - mr_t0) / 1000
     x2 = (mr_df["end_fn_map"] - mr_t0) / 1000
 
-    line_segments = create_line_segments(x1, x2, Y, "black", "Sort", "-", 0.9)
+    line_segments = create_line_segments(x1, x2, Y, "black", "Running worker", "-", 0.9)
     ax1.add_collection(line_segments)
     lc_handles.append(line_segments)
 
@@ -180,14 +185,24 @@ if __name__ == "__main__":
     ax1.add_collection(line_segments)
     lc_handles.append(line_segments)
 
+    # plt.legend(
+    #     lc_handles,
+    #     ["Input download", "Sort", "Shuffle"],
+    #     bbox_to_anchor=(0, 1.02, 1, 0.2),
+    #     loc="lower left",
+    #     # mode="expand",
+    #     borderaxespad=0,
+    #     ncol=3,
+    #     frameon=False,
+    # )
     plt.legend(
         lc_handles,
-        ["Input download", "Sort", "Shuffle"],
+        ["Running worker", "Shuffle"],
         bbox_to_anchor=(0, 1.02, 1, 0.2),
         loc="lower left",
         # mode="expand",
         borderaxespad=0,
-        ncol=3,
+        ncol=2,
         frameon=False,
     )
 
@@ -215,17 +230,18 @@ if __name__ == "__main__":
 
     lc_handles = []
 
+    # x1 = (burst_df["init_fn"] - burst_t0) / 1000
+    # x2 = (burst_df["post_download"] - burst_t0) / 1000
+
+    # line_segments = create_line_segments(x1, x2, Y, "tab:blue", "Input download", "-", 0.9)
+    # ax2.add_collection(line_segments)
+    # lc_handles.append(line_segments)
+
+    # x1 = (burst_df["post_download"] - burst_t0) / 1000
     x1 = (burst_df["init_fn"] - burst_t0) / 1000
-    x2 = (burst_df["post_download"] - burst_t0) / 1000
-
-    line_segments = create_line_segments(x1, x2, Y, "tab:blue", "Input download", "-", 0.9)
-    ax2.add_collection(line_segments)
-    lc_handles.append(line_segments)
-
-    x1 = (burst_df["post_download"] - burst_t0) / 1000
     x2 = (burst_df["end_fn"] - burst_t0) / 1000
 
-    line_segments = create_line_segments(x1, x2, Y, "black", "Sort", "-", 0.9)
+    line_segments = create_line_segments(x1, x2, Y, "black", "Running worker", "-", 0.9)
     ax2.add_collection(line_segments)
     lc_handles.append(line_segments)
 

@@ -191,11 +191,11 @@ if __name__ == "__main__":
 
     kwargs = {
         "width": bar_width,
-        "linewidth": 0.5,
-        "edgecolor": "black",
+        # "linewidth": 0.5,
+        # "edgecolor": "black",
         "align": "center",
-        "alpha": 0.75,
-        "ecolor": "black",
+        # "alpha": 0.75,
+        # "ecolor": "black",
         "capsize": 1.5,
         "zorder": 3,
     }

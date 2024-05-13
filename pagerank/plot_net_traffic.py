@@ -50,10 +50,11 @@ plt.rcParams.update(
 
 BURST_SIZE = 256
 GRANULARITIES = [1, 2, 4, 8, 16, 32, 64]
-ITERATIONS = 1
+ITERATIONS = 10
 INPUT_DATA_SZ = 128 * 1000 * 1000  # 128MB
 VEC_SZ = 50_000_000
 VEC_BYTES_SZ = VEC_SZ * (64 / 8)  # Vec type is float64 (64 bits), 8 bits in a byte, so 64/8
+BASELINE_IDX = 0  # g1
 
 
 if __name__ == "__main__":
@@ -112,6 +113,26 @@ if __name__ == "__main__":
 
     traffic_granularity_tx /= 1000 * 1000 * 1000
     traffic_granularity_rx /= 1000 * 1000 * 1000
+
+    total_traffic = traffic_granularity_tx + traffic_granularity_rx
+    baseline = total_traffic[BASELINE_IDX]
+
+    traffic_reduction = []
+    for t, g in zip(total_traffic, GRANULARITIES):
+        print(f"Granularity {g}: {t} GB")
+        reduction = 1 - (t / baseline)
+        print(f"Reduction: {reduction * 100:.2f}%")
+        traffic_reduction.append(reduction)
+
+    df = pd.DataFrame(
+        {
+            "granularity": GRANULARITIES,
+            "tx": traffic_granularity_tx,
+            "rx": traffic_granularity_rx,
+            "total_traffic": total_traffic,
+            "traffic_reduction": traffic_reduction,
+        }
+    )
 
     fig, ax = plt.subplots(1, 1, figsize=(3.33, 2))
     plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
