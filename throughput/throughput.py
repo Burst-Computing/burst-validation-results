@@ -65,7 +65,7 @@ BACKENDS = {
     "DragonflyList": "Dragonfly (List)",
     "RedisStream": "Redis (Stream)",
     "DragonflyStream": "Dragonfly (Stream)",
-    # "S3": "S3",
+    "S3": "S3",
     # "BurstMessageRelay": "Message Relay Server",
 }
 
@@ -75,7 +75,7 @@ FILES = [
     "throughput/dragonfly-list.csv",
     "throughput/redis-stream.csv",
     "throughput/dragonfly-stream.csv",
-    # "throughput/s3.csv",
+    "throughput/s3.csv",
     # "throughput/message-relay.csv",
 ]
 
@@ -200,8 +200,8 @@ if __name__ == "__main__":
     )
     ax.bar(
         X + (bar_width * 2) + (bar_width / 2),
-        Y_throughput["DragonflyStream"],
-        yerr=Y_throughput_stdev["DragonflyStream"],
+        Y_throughput["S3"],
+        yerr=Y_throughput_stdev["S3"],
         label="S3",
         **kwargs,
     )
