@@ -187,7 +187,7 @@ if __name__ == "__main__":
     bar_width = 0.12
 
     ax.set_ylim(0, 400)
-    ax.set_yticks(np.arange(0, 401, 50))
+    ax.set_yticks(np.arange(0, 401, 100))
 
     kwargs = {
         "width": bar_width,

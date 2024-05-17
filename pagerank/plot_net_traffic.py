@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import math
 import numpy as np
+import pandas as pd
 from cycler import cycler
 
 mpl.use("pgf")
@@ -133,6 +134,7 @@ if __name__ == "__main__":
             "traffic_reduction": traffic_reduction,
         }
     )
+    print(df.to_csv(index=False))
 
     fig, ax = plt.subplots(1, 1, figsize=(3.33, 2))
     plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)

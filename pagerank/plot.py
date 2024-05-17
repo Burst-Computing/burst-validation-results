@@ -182,8 +182,8 @@ def broken_plot(data_download_t, comm_t, compute_t, granularities):
     ax2.bar(X, data_download_t, label="Data download", zorder=2)
     ax1.bar(X, compute_t, label="Computation", bottom=data_download_t, zorder=2)
     ax2.bar(X, compute_t, label="Computation", bottom=data_download_t, zorder=2)
-    ax1.bar(X, comm_t, label="Communication overhead", bottom=data_download_t + compute_t, zorder=2)
-    ax2.bar(X, comm_t, label="Communication overhead", bottom=data_download_t + compute_t, zorder=2)
+    ax1.bar(X, comm_t, label="Communication", bottom=data_download_t + compute_t, zorder=2)
+    ax2.bar(X, comm_t, label="Communication", bottom=data_download_t + compute_t, zorder=2)
 
     d = 0  # proportion of vertical to horizontal extent of the slanted line
     kwargs = dict(
