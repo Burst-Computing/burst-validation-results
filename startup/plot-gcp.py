@@ -56,22 +56,22 @@ BURST_SIZES = [
 
 SERVICES = [
     "100 x 256 MiB",
-    "100 x 10 GiB", # AWS
-    # "100 x 8 GiB", # GCP
+    # "100 x 10 GiB", # AWS
+    "100 x 8 GiB", # GCP
     "1000 x 256 MiB",
-    "1000 x 10 GiB",
-    # "1000 x 8 GiB",
+    # "1000 x 10 GiB",
+    "1000 x 8 GiB",
 ]
 
 FILES = [
-    "startup/aws-100func-single256.csv",
-    "startup/aws-100func-biglambda.csv",
-    # "startup/gcp-100-256MB.csv",
-    # "startup/gcp-100-8192MB.csv",
-    "startup/aws-1000func-single256.csv",
-    "startup/aws-1000func-biglambda.csv",
-    # "startup/gcp-1000-256MB.csv",
-    # "startup/gcp-1000-8192MB.csv",
+    # "startup/aws-100func-single256.csv",
+    # "startup/aws-100func-biglambda.csv",
+    "startup/gcp-100-256MB.csv",
+    "startup/gcp-100-8192MB.csv",
+    # "startup/aws-1000func-single256.csv",
+    # "startup/aws-1000func-biglambda.csv",
+    "startup/gcp-1000-256MB.csv",
+    "startup/gcp-1000-8192MB.csv",
 ]
 
 
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
     # fig.tight_layout()
     # plt.subplots_adjust(top=0.82, bottom=0.25)
-    # plt.savefig("startup/faas-startup.pdf", format="pdf", dpi=500)
+    # plt.savefig("startup/faas-startup-gcp.pdf", format="pdf", dpi=500)
 
 
     # CDF
@@ -175,8 +175,8 @@ if __name__ == "__main__":
     plt.subplots_adjust(top=0.82, bottom=0.22, left=0.12, right=0.95)
     # plt.subplots_adjust(wspace=0.3, hspace=.6)
 
-    ax1.set_xlim(0, 10) # AWS
-    # ax1.set_xlim(0, 52)  # GCP
+    # ax1.set_xlim(0, 10) # AWS
+    ax1.set_xlim(0, 52)  # GCP
     # ax1.set_ylim(0, 1)
     # ax.set_yticks(np.arange(0, 3.1, 0.5))
 
@@ -224,4 +224,4 @@ if __name__ == "__main__":
     )
 
     # fig.tight_layout()
-    plt.savefig("startup/faas-startup-cdf.pdf", format="pdf", dpi=500)
+    plt.savefig("startup/faas-startup-cdf-gcp.pdf", format="pdf", dpi=500)
