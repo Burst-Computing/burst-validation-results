@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
     assert mr_df.shape[0] == burst_df.shape[0]
 
-    fig, ax1 = plt.subplots(1, 1, figsize=(3.33, 2.1))
+    fig, ax1 = plt.subplots(1, 1, figsize=(3.33, 1.75))
     # plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
     ax1.grid(zorder=1)
@@ -199,7 +199,7 @@ if __name__ == "__main__":
         lc_handles,
         ["Running worker", "Shuffle"],
         bbox_to_anchor=(0, 1.02, 1, 0.2),
-        loc="lower left",
+        loc="lower center",
         # mode="expand",
         borderaxespad=0,
         ncol=2,
@@ -207,10 +207,14 @@ if __name__ == "__main__":
     )
 
     fig.tight_layout()
+    plt.subplots_adjust(top=0.9, bottom=0.175)
+
     plt.savefig("terasort/terasort_mr.pdf", dpi=300)
     plt.close(fig)
 
-    fig, ax2 = plt.subplots(1, 1, figsize=(3.33, 2.0))
+    #################################
+
+    fig, ax2 = plt.subplots(1, 1, figsize=(3.33, 1.75))
     # plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
 
     ax2.grid(zorder=1)
@@ -237,6 +241,9 @@ if __name__ == "__main__":
     # ax2.add_collection(line_segments)
     # lc_handles.append(line_segments)
 
+    # burst_df["end_fn"][0:96] = burst_df["end_fn"][0:96].max()
+    # burst_df["end_fn"][96:192] = burst_df["end_fn"][96:192].max()
+
     # x1 = (burst_df["post_download"] - burst_t0) / 1000
     x1 = (burst_df["init_fn"] - burst_t0) / 1000
     x2 = (burst_df["end_fn"] - burst_t0) / 1000
@@ -253,6 +260,7 @@ if __name__ == "__main__":
     lc_handles.append(line_segments)
 
     fig.tight_layout()
+    plt.subplots_adjust(top=0.9, bottom=0.175)
     plt.savefig("terasort/terasort_burst.pdf", dpi=300)
     plt.close(fig)
 

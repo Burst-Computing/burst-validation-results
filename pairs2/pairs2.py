@@ -181,7 +181,7 @@ if __name__ == "__main__":
     # fig.tight_layout()
     # plt.savefig("pairs2/latency.pdf", format="pdf", dpi=500)
 
-    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.2))
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 1.9))
 
     ax.grid(zorder=0)
     bar_width = 0.12
@@ -262,5 +262,5 @@ if __name__ == "__main__":
     )
 
     fig.tight_layout()
-    plt.subplots_adjust(top=0.8, bottom=0.14)
+    # plt.subplots_adjust(top=0.8, bottom=0.14)
     plt.savefig("pairs2/throughput-pair.pdf", format="pdf", dpi=500)

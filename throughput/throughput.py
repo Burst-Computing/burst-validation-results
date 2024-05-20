@@ -145,7 +145,7 @@ if __name__ == "__main__":
     X_labels = [str(burst_size) for burst_size in BURST_SIZES]
     X = np.arange(len(X_labels))
 
-    fig, ax = plt.subplots(1, 1, figsize=(3.33, 2.2))
+    fig, ax = plt.subplots(1, 1, figsize=(3.33, 1.5))
 
     ax.set_ylim(0, 3)
     ax.set_yticks(np.arange(0, 3.1, 0.5))
@@ -218,15 +218,15 @@ if __name__ == "__main__":
     ax.set_xticks(X)
     ax.set_xticklabels(X_labels)
     ax.set_xlabel("Burst Size")
-    ax.set_ylabel("Aggregated Throughput (GiB/s)")
+    ax.set_ylabel("Aggregated\nThroughput (GiB/s)")
     # ax.legend(loc="upper left", frameon=False)
 
-    plt.legend(
-        bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand", borderaxespad=0, ncol=2, frameon=False
-    )
+    # plt.legend(
+    #     bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand", borderaxespad=0, ncol=2, frameon=False
+    # )
 
     fig.tight_layout()
-    plt.subplots_adjust(top=0.8, bottom=0.14)
+    # plt.subplots_adjust(top=0.8, bottom=0.14)
     plt.savefig("throughput/throughput.pdf", format="pdf", dpi=500)
 
     # fig, ax = plt.subplots()

@@ -85,9 +85,12 @@ COLLECTIVES = [
 ]
 
 
-def do_plots(benchmark, medians, stdevs):
+def do_plots(benchmark, medians, stdevs, print_legend=True):
     # fig, ax = plt.subplots()
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.6))
+    if print_legend:
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.6))
+    else:
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.4))
     # plt.subplots_adjust(top=0.65, bottom=0.2, left=0.1, right=0.9, hspace=1)
 
     # ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
@@ -163,20 +166,23 @@ def do_plots(benchmark, medians, stdevs):
     ax2.set_ylabel("Latency Reduction\ncompared to\nGranularity 1 (\%)")
     # ax2.legend(title="Burst Size")
 
-    fig.legend(
-        handles,
-        [str(burst_size) for burst_size in BURST_SIZES],
-        bbox_to_anchor=(0.7, 1.00),
-        # loc="upper center",
-        # mode="expand",
-        # borderaxespad=0,
-        ncol=3,
-        frameon=False,
-        title="Burst Size",
-    )
+    if print_legend:
+        fig.legend(
+            handles,
+            [str(burst_size) for burst_size in BURST_SIZES],
+            bbox_to_anchor=(0.7, 1.00),
+            # loc="upper center",
+            # mode="expand",
+            # borderaxespad=0,
+            ncol=3,
+            frameon=False,
+            title="Burst Size",
+        )
 
     fig.tight_layout()
-    plt.subplots_adjust(top=0.7, bottom=0.2)
+
+    if print_legend:
+        plt.subplots_adjust(top=0.7, bottom=0.2)
 
     # plt.savefig(f"collectives/{benchmark}-latency.pdf", dpi=300)
     plt.savefig(f"collectives/{benchmark}-2in1.pdf", dpi=300)
@@ -255,5 +261,8 @@ if __name__ == "__main__":
                     medians[collective][burst_size][granularity] = 0.0
                     stdevs[collective][burst_size][granularity] = 0.0
 
-    for collective in COLLECTIVES:
-        do_plots(collective, medians, stdevs)
+    # for collective in COLLECTIVES:
+    #     do_plots(collective, medians, stdevs)
+
+    do_plots("Broadcast", medians, stdevs, True)
+    do_plots("AllToAll", medians, stdevs, False)

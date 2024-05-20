@@ -85,7 +85,7 @@ COLLECTIVES = [
 ]
 
 
-def do_plot_latency(benchmark, medians, stdevs):
+def do_plot_latency(benchmark, medians, stdevs, legend=True):
     # fig, ax = plt.subplots()
     fig, ax = plt.subplots(1, 1, figsize=(2.2, 2))
     plt.subplots_adjust(top=0.95, bottom=0.2, left=0.13, right=0.75)
@@ -113,7 +113,8 @@ def do_plot_latency(benchmark, medians, stdevs):
 
     ax.set_xlabel("Granularity")
     ax.set_ylabel("Latency (s)")
-    ax.legend(title="Burst Size")
+    if legend:
+        ax.legend(title="Burst Size")
     # ax.set_title(f"{benchmark} Latency")
 
     fig.tight_layout()
@@ -123,7 +124,7 @@ def do_plot_latency(benchmark, medians, stdevs):
     plt.close(fig)
 
 
-def do_plot_percent(benchmark, medians, stdevs):
+def do_plot_percent(benchmark, medians, stdevs, legend=True):
     percent_reduction = {
         burst_size: {granularity: 0.0 for granularity in GRANULARITIES if granularity != 1}
         for burst_size in BURST_SIZES
@@ -162,7 +163,8 @@ def do_plot_percent(benchmark, medians, stdevs):
 
     ax.set_xlabel("Granularity")
     ax.set_ylabel("Latency Reduction\nrespect to Granularity 1 (\%)")
-    ax.legend(title="Burst Size")
+    if legend:
+        ax.legend(title="Burst Size")
     # ax.set_title(f"{benchmark} Latency Reduction")
 
     fig.tight_layout()
@@ -172,7 +174,7 @@ def do_plot_percent(benchmark, medians, stdevs):
     plt.close(fig)
 
 
-def do_plot_histogram(run_data, title=None):
+def do_plot_histogram(run_data, title=None, legend=True):
     fig, ax = plt.subplots(figsize=(10, 10))
 
     benchmark = run_data["benchmark"].iloc[0]
@@ -218,7 +220,8 @@ def do_plot_histogram(run_data, title=None):
     ax.plot(parallelism, color="tab:red", label="Parallelism")
 
     # legend
-    ax.legend(loc="upper right")
+    if legend:
+        ax.legend(loc="upper right")
 
     if title is None:
         title = f"{benchmark} Execution Times"
@@ -303,16 +306,21 @@ if __name__ == "__main__":
                     medians[collective][burst_size][granularity] = 0.0
                     stdevs[collective][burst_size][granularity] = 0.0
 
-    for collective in COLLECTIVES:
-        do_plot_latency(collective, medians, stdevs)
-        do_plot_percent(collective, medians, stdevs)
-        # for burst_size in BURST_SIZES:
-        #     for granularity in GRANULARITIES:
-        #         do_plot_histogram(
-        #             fastest_run[collective][burst_size][granularity],
-        #             f"{collective} Execution Times (fastest run, {burst_size=}, {granularity=})",
-        #         )
-        #         do_plot_histogram(
-        #             slowest_run[collective][burst_size][granularity],
-        #             f"{collective} Execution Times (slowest run, {burst_size=}, {granularity=})",
-        #         )
+    do_plot_latency(COLLECTIVES[2], medians, stdevs)
+    do_plot_percent(COLLECTIVES[2], medians, stdevs)
+
+    do_plot_latency(COLLECTIVES[3], medians, stdevs, legend=False)
+    do_plot_percent(COLLECTIVES[3], medians, stdevs, legend=False)
+    # for collective in COLLECTIVES:
+    # do_plot_latency(collective, medians, stdevs)
+    # do_plot_percent(collective, medians, stdevs)
+    # for burst_size in BURST_SIZES:
+    #     for granularity in GRANULARITIES:
+    #         do_plot_histogram(
+    #             fastest_run[collective][burst_size][granularity],
+    #             f"{collective} Execution Times (fastest run, {burst_size=}, {granularity=})",
+    #         )
+    #         do_plot_histogram(
+    #             slowest_run[collective][burst_size][granularity],
+    #             f"{collective} Execution Times (slowest run, {burst_size=}, {granularity=})",
+    #         )
