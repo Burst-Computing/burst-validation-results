@@ -159,7 +159,7 @@ def broken_plot(data_download_t, comm_t, compute_t, granularities):
     compute_t = np.array(compute_t)
 
     X = np.arange(len(granularities))
-    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(3.33, 2))
+    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(3.33, 1.8))
     fig.subplots_adjust(hspace=0.05)  # adjust space between axes
 
     # ax1.grid(True, which="major", axis="y", linestyle="--", alpha=0.5)
@@ -208,7 +208,7 @@ def broken_plot(data_download_t, comm_t, compute_t, granularities):
     ax1.legend()
 
     fig.tight_layout()
-    plt.subplots_adjust(left=0.175)
+    plt.subplots_adjust(left=0.175, bottom=0.195)
 
     fig.savefig("pagerank/pagerank_execution_time_breakdown2.pdf", dpi=500)
 
