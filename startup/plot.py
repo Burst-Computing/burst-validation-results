@@ -38,11 +38,12 @@ plt.rcParams.update(
         "axes.spines.bottom": False,
         "axes.spines.left": False,
         "axes.axisbelow": True,  # grid below patches
-        "axes.prop_cycle": cycler(
-            "color", ["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]
+        "axes.prop_cycle": (
+            cycler(color=["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]) +
+            cycler(linestyle=['-', '--', ':', '-.', '-', '--', ':'])
         ),
         "legend.labelspacing": 0.1,
-        "legend.handlelength": 1,
+        # "legend.handlelength": 1,
         "legend.handletextpad": 0.2,
         "legend.columnspacing": 1,
         "legend.borderpad": 0.1,

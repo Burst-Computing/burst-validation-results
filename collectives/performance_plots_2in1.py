@@ -33,8 +33,9 @@ plt.rcParams.update(
         "grid.linewidth": 0.3,
         "grid.linestyle": "-",
         "axes.edgecolor": mpl.rcParams["grid.color"],
-        "axes.prop_cycle": cycler(
-            "color", ["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]
+        "axes.prop_cycle": (
+            cycler(color=["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]) +
+            cycler(linestyle=['-', '--', ':', '-.', '-', '--', ':'])
         ),
         # "ytick.color": mpl.rcParams["grid.color"],
         "ytick.direction": "in",
@@ -49,8 +50,8 @@ plt.rcParams.update(
         "axes.spines.left": False,
         "axes.axisbelow": True,  # grid below patches
         "legend.labelspacing": 0.1,
-        "legend.handlelength": 1,
-        "legend.handletextpad": 0.1,
+        # "legend.handlelength": 1,
+        "legend.handletextpad": 0.5,
         "legend.columnspacing": 1,
         "legend.borderpad": 0.1,
     }
@@ -114,7 +115,7 @@ def do_plots(benchmark, medians, stdevs, print_legend=True):
             yerr=list(stdevs[benchmark][burst_size].values()),
             # yerr=list(stdevs[benchmark][burst_size].values())[1:],
             marker="D",
-            ls="--",
+            # ls="--",
             capsize=3.0,
             label=str(burst_size),
             zorder=3,
@@ -157,7 +158,7 @@ def do_plots(benchmark, medians, stdevs, print_legend=True):
             X,
             list(percent_reduction[burst_size].values()),
             marker="D",
-            ls="--",
+            # ls="--",
             label=str(burst_size),
             zorder=3,
         )
@@ -170,7 +171,7 @@ def do_plots(benchmark, medians, stdevs, print_legend=True):
         fig.legend(
             handles,
             [str(burst_size) for burst_size in BURST_SIZES],
-            bbox_to_anchor=(0.7, 1.00),
+            bbox_to_anchor=(0.75, 1.00),
             # loc="upper center",
             # mode="expand",
             # borderaxespad=0,

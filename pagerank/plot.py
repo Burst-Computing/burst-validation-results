@@ -178,12 +178,18 @@ def broken_plot(data_download_t, comm_t, compute_t, granularities):
     ax1.set_xticks(X)
     ax1.set_xticklabels(granularities)
 
-    ax1.bar(X, data_download_t, label="Data download", zorder=2)
-    ax2.bar(X, data_download_t, label="Data download", zorder=2)
-    ax1.bar(X, compute_t, label="Computation", bottom=data_download_t, zorder=2)
-    ax2.bar(X, compute_t, label="Computation", bottom=data_download_t, zorder=2)
-    ax1.bar(X, comm_t, label="Communication", bottom=data_download_t + compute_t, zorder=2)
-    ax2.bar(X, comm_t, label="Communication", bottom=data_download_t + compute_t, zorder=2)
+    kwargs = dict(
+        linewidth=0.5,
+        edgecolor="black",
+        zorder=2,
+    )
+
+    ax1.bar(X, data_download_t, label="Data download", hatch="+++", **kwargs)
+    ax2.bar(X, data_download_t, label="Data download", hatch="+++", **kwargs)
+    ax1.bar(X, compute_t, label="Computation", bottom=data_download_t, hatch="xxx", **kwargs)
+    ax2.bar(X, compute_t, label="Computation", bottom=data_download_t, hatch="xxx", **kwargs)
+    ax1.bar(X, comm_t, label="Communication", bottom=data_download_t + compute_t, hatch="///", **kwargs)
+    ax2.bar(X, comm_t, label="Communication", bottom=data_download_t + compute_t, hatch="///", **kwargs)
 
     d = 0  # proportion of vertical to horizontal extent of the slanted line
     kwargs = dict(

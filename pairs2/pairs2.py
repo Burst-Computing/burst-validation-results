@@ -37,8 +37,9 @@ plt.rcParams.update(
         "axes.spines.bottom": False,
         "axes.spines.left": False,
         "axes.axisbelow": True,  # grid below patches
-        "axes.prop_cycle": cycler(
-            "color", ["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]
+        "axes.prop_cycle": (
+            cycler(color=["#348ABD", "#7A68A6", "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]) +
+            cycler(linestyle=['-', '--', ':', '-.', '-', '--', ':'])
         ),
         "legend.labelspacing": 0.1,
         "legend.handlelength": 1,
@@ -191,8 +192,8 @@ if __name__ == "__main__":
 
     kwargs = {
         "width": bar_width,
-        # "linewidth": 0.5,
-        # "edgecolor": "black",
+        "linewidth": 0.5,
+        "edgecolor": "black",
         "align": "center",
         # "alpha": 0.75,
         # "ecolor": "black",
@@ -205,6 +206,7 @@ if __name__ == "__main__":
         Y_throughput["RabbitMQ"],
         yerr=Y_throughput_stdev["RabbitMQ"],
         label="RabbitMQ",
+        hatch="///",
         **kwargs,
     )
     ax.bar(
@@ -212,6 +214,7 @@ if __name__ == "__main__":
         Y_throughput["RedisList"],
         yerr=Y_throughput_stdev["RedisList"],
         label="Redis List",
+        hatch="\\\\\\",
         **kwargs,
     )
     ax.bar(
@@ -219,6 +222,7 @@ if __name__ == "__main__":
         Y_throughput["DragonflyList"],
         yerr=Y_throughput_stdev["DragonflyList"],
         label="DragonflyDB List",
+        hatch="|||",
         **kwargs,
     )
     ax.bar(
@@ -226,6 +230,7 @@ if __name__ == "__main__":
         Y_throughput["RedisStream"],
         yerr=Y_throughput_stdev["RedisStream"],
         label="Redis Stream",
+        hatch="---",
         **kwargs,
     )
     ax.bar(
@@ -233,10 +238,16 @@ if __name__ == "__main__":
         Y_throughput["DragonflyStream"],
         yerr=Y_throughput_stdev["DragonflyStream"],
         label="DragonflyDB Stream",
+        hatch="+++",
         **kwargs,
     )
     ax.bar(
-        X + (bar_width * 2) + (bar_width / 2), Y_throughput["S3"], yerr=Y_throughput_stdev["S3"], label="S3", **kwargs
+        X + (bar_width * 2) + (bar_width / 2),
+        Y_throughput["S3"],
+        yerr=Y_throughput_stdev["S3"],
+        label="S3",
+        hatch="xxx",
+        **kwargs
     )
     # ax.bar(
     #     X - (bar_width * 2) - (bar_width / 2),
