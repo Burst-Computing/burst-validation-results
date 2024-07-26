@@ -273,5 +273,5 @@ if __name__ == "__main__":
     )
 
     fig.tight_layout()
-    # plt.subplots_adjust(top=0.8, bottom=0.14)
+    plt.subplots_adjust(top=0.75, bottom=0.16)
     plt.savefig("pairs2/throughput-pair.pdf", format="pdf", dpi=500)

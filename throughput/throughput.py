@@ -232,7 +232,7 @@ if __name__ == "__main__":
     # )
 
     fig.tight_layout()
-    # plt.subplots_adjust(top=0.8, bottom=0.14)
+    plt.subplots_adjust(top=0.95, bottom=0.2)
     plt.savefig("throughput/throughput.pdf", format="pdf", dpi=500)
 
     # fig, ax = plt.subplots()

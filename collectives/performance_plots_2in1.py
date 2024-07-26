@@ -91,7 +91,7 @@ def do_plots(benchmark, medians, stdevs, print_legend=True):
     if print_legend:
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.6))
     else:
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.4))
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(3.33, 1.25))
     # plt.subplots_adjust(top=0.65, bottom=0.2, left=0.1, right=0.9, hspace=1)
 
     # ax.grid(axis="y", linestyle="--", alpha=0.7, zorder=0)
@@ -184,6 +184,8 @@ def do_plots(benchmark, medians, stdevs, print_legend=True):
 
     if print_legend:
         plt.subplots_adjust(top=0.7, bottom=0.2)
+    else:
+        plt.subplots_adjust(top=0.9, bottom=0.25)
 
     # plt.savefig(f"collectives/{benchmark}-latency.pdf", dpi=300)
     plt.savefig(f"collectives/{benchmark}-2in1.pdf", dpi=300)
