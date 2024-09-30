@@ -1,0 +1,386 @@
+[
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00160",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00161",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00162",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00163",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00164",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00165",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00166",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00167",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00168",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00169",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00170",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00171",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00172",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00173",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00174",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00175",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00176",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00177",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00178",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00179",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00180",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00181",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00182",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00183",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00184",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00185",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00186",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00187",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00188",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00189",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00190",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    },
+    {
+        "num_nodes": 50000000,
+        "error": 5e-05,
+        "iterations": 10,
+        "input_data": {
+            "bucket": "pagerank-burst",
+            "key": "bigdata/edges/part-00191",
+            "region": "us-east-1",
+            "aws_access_key_id": "AKIASNA4IND7PBMLUNX6",
+            "aws_secret_access_key": "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"
+        }
+    }
+]
