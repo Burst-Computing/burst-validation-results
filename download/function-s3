@@ -1,0 +1,24 @@
+import os
+import time
+from pprint import pprint
+import boto3
+import lithops
+import sys
+
+
+def my_map_function(id, x):
+    s3 = boto3.client('s3', region_name='us-east-1', aws_access_key_id='ASIASNA4IND7P4VDYN5Q', aws_secret_access_key='4gw6EbEDiI5EFlYAKQaatZPs0UHEq/hyuAhvyWhx', aws_session_token='
+    start_time = time.time()
+    s3.get_object(Bucket='lithops-enrique', Key='1GB')
+    end_time = time.time()
+    download_time = end_time - start_time
+    return {'start_time': start_time, 'end_time': end_time, 'download_time': download_time}
+
+
+if __name__ == "__main__":
+    iterdata = list(range(int(sys.argv[1])))
+    fexec = lithops.FunctionExecutor()
+    fexec.map(my_map_function, iterdata)
+    result = fexec.get_result()
+    print(result)
+    fexec.clean()
