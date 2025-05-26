@@ -112,19 +112,19 @@ if __name__ == "__main__":
     with open(INPUT_MR_FILE, "r") as f:
         mr_df = pd.read_csv(f)
 
-    # with open(INPUT_BURST_FILE, "r") as f:
-    #     burst_df = pd.read_csv(f)
+    with open(INPUT_BURST_FILE, "r") as f:
+        burst_df = pd.read_csv(f)
 
-    worker_data = []
-    path = "terasort/terasort-burst-noOW/exec2"
-    for file in os.listdir(path):
-        with open(os.path.join(path, file), "r") as f:
-            group_data = json.load(f)
-            worker_data.extend(group_data)
-    burst_df = pd.DataFrame.from_dict(worker_data)
-    for col in burst_df.columns:
-        if burst_df[col].dtype == "object":
-            burst_df[col] = pd.to_numeric(burst_df[col], errors="coerce")
+    # worker_data = []
+    # path = "terasort/terasort-burst-noOW/exec2"
+    # for file in os.listdir(path):
+    #     with open(os.path.join(path, file), "r") as f:
+    #         group_data = json.load(f)
+    #         worker_data.extend(group_data)
+    # burst_df = pd.DataFrame.from_dict(worker_data)
+    # for col in burst_df.columns:
+    #     if burst_df[col].dtype == "object":
+    #         burst_df[col] = pd.to_numeric(burst_df[col], errors="coerce")
 
     print(mr_df)
     print(burst_df)
